@@ -196,9 +196,7 @@ class _Body extends StatefulWidget {
   }
 
   @override
-  State<StatefulWidget> createState() {
-    return _dialog;
-  }
+  State<StatefulWidget> createState() => _dialog;
 }
 
 class _BodyState extends State<_Body> {

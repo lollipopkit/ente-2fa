@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 class LanguageSelectorPage extends StatelessWidget {
   final List<Locale> supportedLocales;
   final ValueChanged<Locale> onLocaleChanged;
-  final Locale currentLocale;
+  final Locale? currentLocale;
 
   const LanguageSelectorPage(
     this.supportedLocales,
@@ -73,7 +73,7 @@ class LanguageSelectorPage extends StatelessWidget {
 class ItemsWidget extends StatefulWidget {
   final List<Locale> supportedLocales;
   final ValueChanged<Locale> onLocaleChanged;
-  final Locale currentLocale;
+  final Locale? currentLocale;
 
   const ItemsWidget(
     this.supportedLocales,
@@ -87,7 +87,7 @@ class ItemsWidget extends StatefulWidget {
 }
 
 class _ItemsWidgetState extends State<ItemsWidget> {
-  late Locale currentLocale;
+  late Locale? currentLocale;
   List<Widget> items = [];
 
   @override

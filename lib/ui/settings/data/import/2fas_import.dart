@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -5,7 +7,6 @@ import 'dart:typed_data';
 
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
-import 'package:ente_auth/services/authenticator_service.dart';
 import 'package:ente_auth/store/code_store.dart';
 import 'package:ente_auth/ui/common/progress_dialog.dart';
 import 'package:ente_auth/ui/components/buttons/button_widget.dart';
@@ -164,14 +165,13 @@ Future<int?> _process2FasExportFile(
   for (final code in parsedCodes) {
     await CodeStore.instance.addCode(code, shouldSync: false);
   }
-  unawaited(AuthenticatorService.instance.onlineSync());
   int count = parsedCodes.length;
   return count;
 }
 
 String decrypt2FasVault(dynamic data, {required String password}) {
-  int ITERATION_COUNT = 10000;
-  int KEY_SIZE = 256;
+  int iterationCount = 10000;
+  int keySize = 256;
   final String encryptedServices = data["servicesEncrypted"];
   var split = encryptedServices.split(":");
   final encryptedData = base64.decode(split[0]);
@@ -181,11 +181,11 @@ String decrypt2FasVault(dynamic data, {required String password}) {
   final pbkdf2 = PBKDF2KeyDerivator(HMac(SHA256Digest(), 64));
   final params = Pbkdf2Parameters(
     salt,
-    ITERATION_COUNT,
-    KEY_SIZE ~/ 8,
+    iterationCount,
+    keySize ~/ 8,
   );
   pbkdf2.init(params);
-  Uint8List key = Uint8List(KEY_SIZE ~/ 8);
+  Uint8List key = Uint8List(keySize ~/ 8);
   pbkdf2.deriveKey(Uint8List.fromList(utf8.encode(password)), 0, key, 0);
   final decrypted = decrypt(key, iv, encryptedData);
   final utf8Decode = utf8.decode(decrypted);

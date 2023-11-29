@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
-import 'package:ente_auth/services/authenticator_service.dart';
 import 'package:ente_auth/store/code_store.dart';
 import 'package:ente_auth/ui/components/buttons/button_widget.dart';
 import 'package:ente_auth/ui/components/dialog_widget.dart';
@@ -98,6 +97,5 @@ Future<int?> _processBitwardenExportFile(
   for (final code in parsedCodes) {
     await CodeStore.instance.addCode(code, shouldSync: false);
   }
-  unawaited(AuthenticatorService.instance.onlineSync());
   return parsedCodes.length;
 }

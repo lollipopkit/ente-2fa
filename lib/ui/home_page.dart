@@ -1,19 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:ente_auth/core/configuration.dart';
 import 'package:ente_auth/core/event_bus.dart';
 import 'package:ente_auth/ente_theme_data.dart';
 import 'package:ente_auth/events/codes_updated_event.dart';
 import 'package:ente_auth/events/icons_changed_event.dart';
-import 'package:ente_auth/events/trigger_logout_event.dart';
 import "package:ente_auth/l10n/l10n.dart";
 import 'package:ente_auth/models/code.dart';
 import 'package:ente_auth/onboarding/view/setup_enter_secret_key_page.dart';
 import 'package:ente_auth/services/preference_service.dart';
-import 'package:ente_auth/services/user_service.dart';
 import 'package:ente_auth/store/code_store.dart';
-import 'package:ente_auth/ui/account/logout_dialog.dart';
 import 'package:ente_auth/ui/code_widget.dart';
 import 'package:ente_auth/ui/common/loading_widget.dart';
 import 'package:ente_auth/ui/home/coach_mark_widget.dart';
@@ -39,7 +35,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static final _settingsPage = SettingsPage(
-    emailNotifier: UserService.instance.emailValueNotifier,
   );
   bool _hasLoaded = false;
   bool _isSettingsOpen = false;
@@ -51,7 +46,6 @@ class _HomePageState extends State<HomePage> {
   List<Code> _codes = [];
   List<Code> _filteredCodes = [];
   StreamSubscription<CodesUpdatedEvent>? _streamSubscription;
-  StreamSubscription<TriggerLogoutEvent>? _triggerLogoutEvent;
   StreamSubscription<IconsChangedEvent>? _iconsChangedEvent;
 
   @override
@@ -62,15 +56,7 @@ class _HomePageState extends State<HomePage> {
     _streamSubscription = Bus.instance.on<CodesUpdatedEvent>().listen((event) {
       _loadCodes();
     });
-    _triggerLogoutEvent =
-        Bus.instance.on<TriggerLogoutEvent>().listen((event) async {
-      await autoLogoutAlert(context);
-    });
     _initDeepLinks();
-    Future.delayed(
-      const Duration(seconds: 1),
-      () async => await CodeStore.instance.importOfflineCodes(),
-    );
     _iconsChangedEvent = Bus.instance.on<IconsChangedEvent>().listen((event) {
       setState(() {});
     });
@@ -105,7 +91,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _streamSubscription?.cancel();
-    _triggerLogoutEvent?.cancel();
     _iconsChangedEvent?.cancel();
     _textController.removeListener(_applyFilteringAndRefresh);
     super.dispose();
@@ -318,7 +303,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _handleDeeplink(BuildContext context, String? link) {
-    if (!Configuration.instance.hasConfiguredAccount() || link == null) {
+    if (link == null) {
       return;
     }
     if (mounted && link.toLowerCase().startsWith("otpauth://")) {

@@ -1,26 +1,12 @@
-import 'dart:async';
-import 'dart:typed_data';
-
 import 'package:ente_auth/core/configuration.dart';
 import 'package:ente_auth/l10n/l10n.dart';
-import 'package:ente_auth/models/user_details.dart';
 import 'package:ente_auth/services/local_authentication_service.dart';
-import 'package:ente_auth/services/user_service.dart';
-import 'package:ente_auth/theme/ente_theme.dart';
-import 'package:ente_auth/ui/account/recovery_key_page.dart';
-import 'package:ente_auth/ui/account/request_pwd_verification_page.dart';
-import 'package:ente_auth/ui/account/sessions_page.dart';
 import 'package:ente_auth/ui/components/captioned_text_widget.dart';
 import 'package:ente_auth/ui/components/expandable_menu_item_widget.dart';
 import 'package:ente_auth/ui/components/menu_item_widget.dart';
 import 'package:ente_auth/ui/components/toggle_switch_widget.dart';
 import 'package:ente_auth/ui/settings/common_settings.dart';
-import 'package:ente_auth/utils/crypto_util.dart';
-import 'package:ente_auth/utils/dialog_util.dart';
-import 'package:ente_auth/utils/navigation_util.dart';
-import 'package:ente_auth/utils/toast_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sodium/flutter_sodium.dart';
 
 class SecuritySectionWidget extends StatefulWidget {
   const SecuritySectionWidget({Key? key}) : super(key: key);
@@ -31,13 +17,6 @@ class SecuritySectionWidget extends StatefulWidget {
 
 class _SecuritySectionWidgetState extends State<SecuritySectionWidget> {
   final _config = Configuration.instance;
-  late bool _hasLoggedIn;
-
-  @override
-  void initState() {
-    _hasLoggedIn = _config.hasConfiguredAccount();
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -57,100 +36,7 @@ class _SecuritySectionWidgetState extends State<SecuritySectionWidget> {
   Widget _getSectionOptions(BuildContext context) {
     final l10n = context.l10n;
     final List<Widget> children = [];
-    if (_hasLoggedIn) {
-      final bool? canDisableMFA = UserService.instance.canDisableEmailMFA();
-      if (canDisableMFA == null) {
-        // We don't know if the user can disable MFA yet, so we fetch the info
-        UserService.instance.getUserDetailsV2().ignore();
-      }
-      children.addAll([
-        sectionOptionSpacing,
-        MenuItemWidget(
-          captionedTextWidget: CaptionedTextWidget(
-            title: l10n.recoveryKey,
-          ),
-          pressedColor: getEnteColorScheme(context).fillFaint,
-          trailingIcon: Icons.chevron_right_outlined,
-          trailingIconIsMuted: true,
-          onTap: () async {
-            final hasAuthenticated = await LocalAuthenticationService.instance
-                .requestLocalAuthentication(
-              context,
-              l10n.authToViewYourRecoveryKey,
-            );
-            if (hasAuthenticated) {
-              String recoveryKey;
-              try {
-                recoveryKey =
-                    Sodium.bin2hex(Configuration.instance.getRecoveryKey());
-              } catch (e) {
-                showGenericErrorDialog(context: context);
-                return;
-              }
-              routeToPage(
-                context,
-                RecoveryKeyPage(
-                  recoveryKey,
-                  l10n.ok,
-                  showAppBar: true,
-                  onDone: () {},
-                ),
-              );
-            }
-          },
-        ),
-        MenuItemWidget(
-          captionedTextWidget: CaptionedTextWidget(
-            title: l10n.emailVerificationToggle,
-          ),
-          trailingWidget: ToggleSwitchWidget(
-            value: () => UserService.instance.hasEmailMFAEnabled(),
-            onChanged: () async {
-              final hasAuthenticated = await LocalAuthenticationService.instance
-                  .requestLocalAuthentication(
-                context,
-                l10n.authToChangeEmailVerificationSetting,
-              );
-              final isEmailMFAEnabled =
-                  UserService.instance.hasEmailMFAEnabled();
-              if (hasAuthenticated) {
-                await updateEmailMFA(!isEmailMFAEnabled);
-                if (mounted) {
-                  setState(() {});
-                }
-              }
-            },
-          ),
-        ),
-        sectionOptionSpacing,
-        MenuItemWidget(
-          captionedTextWidget: CaptionedTextWidget(
-            title: context.l10n.viewActiveSessions,
-          ),
-          pressedColor: getEnteColorScheme(context).fillFaint,
-          trailingIcon: Icons.chevron_right_outlined,
-          trailingIconIsMuted: true,
-          onTap: () async {
-            final hasAuthenticated = await LocalAuthenticationService.instance
-                .requestLocalAuthentication(
-              context,
-              context.l10n.authToViewYourActiveSessions,
-            );
-            if (hasAuthenticated) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return const SessionsPage();
-                  },
-                ),
-              );
-            }
-          },
-        ),
-      ]);
-    } else {
-      children.add(sectionOptionSpacing);
-    }
+    children.add(sectionOptionSpacing);
     children.addAll([
       MenuItemWidget(
         captionedTextWidget: CaptionedTextWidget(
@@ -177,41 +63,5 @@ class _SecuritySectionWidgetState extends State<SecuritySectionWidget> {
     return Column(
       children: children,
     );
-  }
-
-  Future<void> updateEmailMFA(bool enableEmailMFA) async {
-    try {
-      final UserDetails details =
-          await UserService.instance.getUserDetailsV2(memoryCount: false);
-      if (details.profileData?.canDisableEmailMFA == false) {
-        await routeToPage(
-          context,
-          RequestPasswordVerificationPage(
-            onPasswordVerified: (Uint8List keyEncryptionKey) async {
-              final Uint8List loginKey =
-                  await CryptoUtil.deriveLoginKey(keyEncryptionKey);
-              await UserService.instance.registerOrUpdateSrp(loginKey);
-            },
-          ),
-        );
-      }
-      if (enableEmailMFA) {
-        await showChoiceActionSheet(
-          context,
-          title: context.l10n.warning,
-          body: context.l10n.emailVerificationEnableWarning,
-          isCritical: true,
-          firstButtonOnTap: () async {
-            await UserService.instance.updateEmailMFA(enableEmailMFA);
-          },
-          secondButtonLabel: context.l10n.cancel,
-          firstButtonLabel: context.l10n.iUnderStand,
-        );
-      } else {
-        await UserService.instance.updateEmailMFA(enableEmailMFA);
-      }
-    } catch (e) {
-      showToast(context, context.l10n.somethingWentWrongMessage);
-    }
   }
 }

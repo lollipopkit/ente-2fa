@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ente_auth/l10n/l10n.dart';
-import 'package:ente_auth/services/update_service.dart';
 import 'package:ente_auth/theme/ente_theme.dart';
 import 'package:ente_auth/ui/components/captioned_text_widget.dart';
 import 'package:ente_auth/ui/components/expandable_menu_item_widget.dart';
@@ -25,13 +24,9 @@ class SocialSectionWidget extends StatelessWidget {
 
   Widget _getSectionOptions(BuildContext context) {
     final l10n = context.l10n;
-    final result = UpdateService.instance.getRateDetails();
-    final String ratePlace = result.item1;
-    final String rateUrl = result.item2;
 
     final List<Widget> options = [
       sectionOptionSpacing,
-      SocialsMenuItemWidget(l10n.rateUsOnStore(ratePlace), rateUrl),
       sectionOptionSpacing,
       SocialsMenuItemWidget(
         l10n.blog,

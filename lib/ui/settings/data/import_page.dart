@@ -20,7 +20,7 @@ enum ImportType {
 }
 
 class ImportCodePage extends StatelessWidget {
-  late List<ImportType> importOptions = [
+  static const List<ImportType> importOptions = [
     ImportType.plainText,
     ImportType.encrypted,
     ImportType.twoFas,

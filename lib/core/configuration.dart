@@ -3,15 +3,9 @@ import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:typed_data';
 
-import 'package:bip39/bip39.dart' as bip39;
-import 'package:ente_auth/core/constants.dart';
-import 'package:ente_auth/core/event_bus.dart';
-import 'package:ente_auth/events/signed_in_event.dart';
-import 'package:ente_auth/events/signed_out_event.dart';
 import 'package:ente_auth/models/key_attributes.dart';
 import 'package:ente_auth/models/key_gen_result.dart';
 import 'package:ente_auth/models/private_key_attributes.dart';
-import 'package:ente_auth/store/authenticator_db.dart';
 import 'package:ente_auth/utils/crypto_util.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_sodium/flutter_sodium.dart';
@@ -24,10 +18,6 @@ class Configuration {
   Configuration._privateConstructor();
 
   static final Configuration instance = Configuration._privateConstructor();
-  static const endpoint = String.fromEnvironment(
-    "endpoint",
-    defaultValue: kDefaultProductionEndpoint,
-  );
   static const emailKey = "email";
   static const keyAttributesKey = "key_attributes";
 
@@ -52,7 +42,6 @@ class Configuration {
 
   static final _logger = Logger("Configuration");
 
-  String? _cachedToken;
   late String _documentsDirectory;
   late SharedPreferences _preferences;
   String? _key;
@@ -89,7 +78,6 @@ class Configuration {
       _logger.warning(e);
     }
     tempDirectory.createSync(recursive: true);
-    await _initOnlineAccount();
     await _initOfflineAccount();
   }
 
@@ -98,51 +86,6 @@ class Configuration {
       key: offlineAuthSecretKey,
       iOptions: _secureStorageOptionsIOS,
     );
-  }
-
-  Future<void> _initOnlineAccount() async {
-    if (!_preferences.containsKey(tokenKey)) {
-      for (final key in onlineSecureKeys) {
-        unawaited(
-          _secureStorage.delete(
-            key: key,
-            iOptions: _secureStorageOptionsIOS,
-          ),
-        );
-      }
-    } else {
-      _key = await _secureStorage.read(
-        key: keyKey,
-        iOptions: _secureStorageOptionsIOS,
-      );
-      _secretKey = await _secureStorage.read(
-        key: secretKeyKey,
-        iOptions: _secureStorageOptionsIOS,
-      );
-      _authSecretKey = await _secureStorage.read(
-        key: authSecretKeyKey,
-        iOptions: _secureStorageOptionsIOS,
-      );
-      if (_key == null) {
-        await logout(autoLogout: true);
-      }
-    }
-  }
-
-  Future<void> logout({bool autoLogout = false}) async {
-    await _preferences.clear();
-    for (String key in onlineSecureKeys) {
-      await _secureStorage.delete(
-        key: key,
-        iOptions: _secureStorageOptionsIOS,
-      );
-    }
-    await AuthenticatorDB.instance.clearTable();
-    _key = null;
-    _cachedToken = null;
-    _secretKey = null;
-    _authSecretKey = null;
-    Bus.instance.fire(SignedOutEvent());
   }
 
   Future<KeyGenResult> generateKey(String password) async {
@@ -160,7 +103,7 @@ class Configuration {
     // decrypt the master key
     final kekSalt = CryptoUtil.getSaltToDeriveKey();
     final derivedKeyResult = await CryptoUtil.deriveSensitiveKey(
-      utf8.encode(password) as Uint8List,
+      utf8.encode(password),
       kekSalt,
     );
     final loginKey = await CryptoUtil.deriveLoginKey(derivedKeyResult.key);
@@ -206,7 +149,7 @@ class Configuration {
     // decrypt the master key
     final kekSalt = CryptoUtil.getSaltToDeriveKey();
     final derivedKeyResult = await CryptoUtil.deriveSensitiveKey(
-      utf8.encode(password) as Uint8List,
+      utf8.encode(password),
       kekSalt,
     );
     final loginKey = await CryptoUtil.deriveLoginKey(derivedKeyResult.key);
@@ -238,7 +181,7 @@ class Configuration {
   }) async {
     _logger.info('Start decryptAndSaveSecrets');
     keyEncryptionKey ??= await CryptoUtil.deriveKey(
-      utf8.encode(password) as Uint8List,
+      utf8.encode(password),
       Sodium.base642bin(attributes.kekSalt),
       attributes.memLimit,
       attributes.opsLimit,
@@ -265,74 +208,8 @@ class Configuration {
     );
     _logger.info("secret-key done");
     await setSecretKey(Sodium.bin2base64(secretKey));
-    final token = CryptoUtil.openSealSync(
-      Sodium.base642bin(getEncryptedToken()!),
-      Sodium.base642bin(attributes.publicKey),
-      secretKey,
-    );
     _logger.info('appToken done');
-    await setToken(
-      Sodium.bin2base64(token, variant: Sodium.base64VariantUrlsafe),
-    );
     return keyEncryptionKey;
-  }
-
-  Future<void> recover(String recoveryKey) async {
-    // check if user has entered mnemonic code
-    if (recoveryKey.contains(' ')) {
-      if (recoveryKey.split(' ').length != mnemonicKeyWordCount) {
-        throw AssertionError(
-          'recovery code should have $mnemonicKeyWordCount words',
-        );
-      }
-      recoveryKey = bip39.mnemonicToEntropy(recoveryKey);
-    }
-    final attributes = getKeyAttributes();
-    Uint8List masterKey;
-    try {
-      masterKey = await CryptoUtil.decrypt(
-        Sodium.base642bin(attributes!.masterKeyEncryptedWithRecoveryKey),
-        Sodium.hex2bin(recoveryKey),
-        Sodium.base642bin(attributes.masterKeyDecryptionNonce),
-      );
-    } catch (e) {
-      _logger.severe(e);
-      rethrow;
-    }
-    await setKey(Sodium.bin2base64(masterKey));
-    final secretKey = CryptoUtil.decryptSync(
-      Sodium.base642bin(attributes.encryptedSecretKey),
-      masterKey,
-      Sodium.base642bin(attributes.secretKeyDecryptionNonce),
-    );
-    await setSecretKey(Sodium.bin2base64(secretKey));
-    final token = CryptoUtil.openSealSync(
-      Sodium.base642bin(getEncryptedToken()!),
-      Sodium.base642bin(attributes.publicKey),
-      secretKey,
-    );
-    await setToken(
-      Sodium.bin2base64(token, variant: Sodium.base64VariantUrlsafe),
-    );
-  }
-
-  String getHttpEndpoint() {
-    return endpoint;
-  }
-
-  String? getToken() {
-    _cachedToken ??= _preferences.getString(tokenKey);
-    return _cachedToken;
-  }
-
-  bool isLoggedIn() {
-    return getToken() != null;
-  }
-
-  Future<void> setToken(String token) async {
-    _cachedToken = token;
-    await _preferences.setString(tokenKey, token);
-    Bus.instance.fire(SignedInEvent());
   }
 
   Future<void> setEncryptedToken(String encryptedToken) async {
@@ -427,10 +304,6 @@ class Configuration {
   // Caution: This directory is cleared on app start
   String getTempDirectory() {
     return _tempDirectory;
-  }
-
-  bool hasConfiguredAccount() {
-    return getToken() != null && _key != null;
   }
 
   bool hasOptedForOfflineMode() {

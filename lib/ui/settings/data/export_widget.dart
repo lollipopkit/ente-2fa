@@ -13,7 +13,6 @@ import 'package:ente_auth/utils/crypto_util.dart';
 import 'package:ente_auth/utils/dialog_util.dart';
 import 'package:ente_auth/utils/toast_util.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sodium/flutter_sodium.dart';
 import 'package:logging/logging.dart';
@@ -74,13 +73,13 @@ Future<void> _requestForEncryptionPassword(
         try {
           final kekSalt = CryptoUtil.getSaltToDeriveKey();
           final derivedKeyResult = await CryptoUtil.deriveSensitiveKey(
-            utf8.encode(password) as Uint8List,
+            utf8.encode(password),
             kekSalt,
           );
           String exportPlainText = await _getAuthDataForExport();
           // Encrypt the key with this derived key
           final encResult = await CryptoUtil.encryptChaCha(
-            utf8.encode(exportPlainText) as Uint8List,
+            utf8.encode(exportPlainText),
             derivedKeyResult.key,
           );
           final encContent = Sodium.bin2base64(encResult.encryptedData!);
@@ -135,7 +134,10 @@ Future<void> _exportCodes(BuildContext context, String fileContent) async {
   }
   _codeFile.writeAsStringSync(fileContent);
   final Size size = MediaQuery.of(context).size;
-  await Share.shareFiles([_codeFile.path], sharePositionOrigin: Rect.fromLTWH(0, 0, size.width, size.height / 2),);
+  await Share.shareXFiles(
+    [_codeFile.path].map((e) => XFile(e)).toList(),
+    sharePositionOrigin: Rect.fromLTWH(0, 0, size.width, size.height / 2),
+  );
   Future.delayed(const Duration(seconds: 15), () async {
     if (_codeFile.existsSync()) {
       _codeFile.deleteSync();

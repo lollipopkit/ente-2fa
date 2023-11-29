@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
-import 'package:ente_auth/core/configuration.dart';
 import 'package:ente_auth/ente_theme_data.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
@@ -56,7 +55,6 @@ class _CodeWidgetState extends State<CodeWidget> {
         }
       }
     });
-    hasConfiguredAccount = Configuration.instance.hasConfiguredAccount();
   }
 
   @override

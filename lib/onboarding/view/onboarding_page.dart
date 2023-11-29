@@ -2,23 +2,11 @@ import 'dart:async';
 
 import 'package:ente_auth/app/view/app.dart';
 import 'package:ente_auth/core/configuration.dart';
-import 'package:ente_auth/core/event_bus.dart';
 import 'package:ente_auth/ente_theme_data.dart';
-import 'package:ente_auth/events/trigger_logout_event.dart';
 import "package:ente_auth/l10n/l10n.dart";
 import 'package:ente_auth/locale.dart';
-import 'package:ente_auth/theme/text_style.dart';
-import 'package:ente_auth/ui/account/email_entry_page.dart';
-import 'package:ente_auth/ui/account/login_page.dart';
-import 'package:ente_auth/ui/account/logout_dialog.dart';
-import 'package:ente_auth/ui/account/password_entry_page.dart';
-import 'package:ente_auth/ui/account/password_reentry_page.dart';
-import 'package:ente_auth/ui/common/gradient_button.dart';
-import 'package:ente_auth/ui/components/buttons/button_widget.dart';
-import 'package:ente_auth/ui/components/models/button_result.dart';
 import 'package:ente_auth/ui/home_page.dart';
 import 'package:ente_auth/ui/settings/language_picker.dart';
-import 'package:ente_auth/utils/dialog_util.dart';
 import 'package:ente_auth/utils/navigation_util.dart';
 import 'package:ente_auth/utils/toast_util.dart';
 import 'package:flutter/foundation.dart';
@@ -33,23 +21,6 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  late StreamSubscription<TriggerLogoutEvent> _triggerLogoutEvent;
-
-  @override
-  void initState() {
-    _triggerLogoutEvent =
-        Bus.instance.on<TriggerLogoutEvent>().listen((event) async {
-      await autoLogoutAlert(context);
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _triggerLogoutEvent.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     debugPrint("Building OnboardingPage");
@@ -128,44 +99,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     const SizedBox(height: 100),
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: GradientButton(
-                        onTap: _navigateToSignUpPage,
-                        text: l10n.newUser,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Container(
-                      width: double.infinity,
                       padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
                       child: Hero(
-                        tag: "log_in",
+                        tag: "use_offline",
                         child: ElevatedButton(
                           style: Theme.of(context)
                               .colorScheme
                               .optionalActionButtonStyle,
-                          onPressed: _navigateToSignInPage,
-                          child: Text(
-                            l10n.existingUser,
-                            style: const TextStyle(
-                              color: Colors.black, // same for both themes
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.only(top: 20, bottom: 20),
-                      child: GestureDetector(
-                        onTap: _optForOfflineMode,
-                        child: Center(
+                          onPressed: _optForOfflineMode,
                           child: Text(
                             l10n.useOffline,
-                            style: body.copyWith(
-                              color:
-                                  Theme.of(context).colorScheme.mutedTextColor,
+                            style: const TextStyle(
+                              color: Colors.black, // same for both themes
                             ),
                           ),
                         ),
@@ -188,17 +133,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       return;
     }
     final bool hasOptedBefore = Configuration.instance.hasOptedForOfflineMode();
-    ButtonResult? result;
-    if(!hasOptedBefore) {
-      result = await showChoiceActionSheet(
-        context,
-        title: context.l10n.warning,
-        body: context.l10n.offlineModeWarning,
-        secondButtonLabel: context.l10n.cancel,
-        firstButtonLabel: context.l10n.ok,
-      );
-    }
-    if (hasOptedBefore || result?.action == ButtonAction.first) {
+    if (!hasOptedBefore) {
       await Configuration.instance.optForOfflineMode();
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -208,63 +143,5 @@ class _OnboardingPageState extends State<OnboardingPage> {
         ),
       );
     }
-
-  }
-
-  void _navigateToSignUpPage() {
-    Widget page;
-    if (Configuration.instance.getEncryptedToken() == null) {
-      page = const EmailEntryPage();
-    } else {
-      // No key
-      if (Configuration.instance.getKeyAttributes() == null) {
-        // Never had a key
-        page = const PasswordEntryPage(
-          mode: PasswordEntryMode.set,
-        );
-      } else if (Configuration.instance.getKey() == null) {
-        // Yet to decrypt the key
-        page = const PasswordReentryPage();
-      } else {
-        // All is well, user just has not subscribed
-        page = const HomePage();
-      }
-    }
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return page;
-        },
-      ),
-    );
-  }
-
-  void _navigateToSignInPage() {
-    Widget page;
-    if (Configuration.instance.getEncryptedToken() == null) {
-      page = const LoginPage();
-    } else {
-      // No key
-      if (Configuration.instance.getKeyAttributes() == null) {
-        // Never had a key
-        page = const PasswordEntryPage(
-          mode: PasswordEntryMode.set,
-        );
-      } else if (Configuration.instance.getKey() == null) {
-        // Yet to decrypt the key
-        page = const PasswordReentryPage();
-      } else {
-        // All is well, user just has not subscribed
-        // page = getSubscriptionPage(isOnBoarding: true);
-        page = const HomePage();
-      }
-    }
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return page;
-        },
-      ),
-    );
   }
 }

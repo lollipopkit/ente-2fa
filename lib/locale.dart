@@ -42,7 +42,7 @@ Locale localResolutionCallBack(locales, supportedLocales) {
   return languageCodeMatch ?? const Locale('en');
 }
 
-Future<Locale> getLocale() async {
+Future<Locale?> getLocale() async {
   final String? savedValue =
       (await SharedPreferences.getInstance()).getString('locale');
   // if savedLocale is not null and is supported by the app, return it
@@ -58,7 +58,7 @@ Future<Locale> getLocale() async {
       return savedLocale;
     }
   }
-  return const Locale('en');
+  return null;
 }
 
 Future<void> setLocale(Locale locale) async {

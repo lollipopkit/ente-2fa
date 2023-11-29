@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
 import 'package:ente_auth/models/export/ente.dart';
-import 'package:ente_auth/services/authenticator_service.dart';
 import 'package:ente_auth/store/code_store.dart';
 import 'package:ente_auth/ui/components/buttons/button_widget.dart';
 import 'package:ente_auth/ui/components/dialog_widget.dart';
@@ -80,7 +79,7 @@ Future<void> _decryptExportData(
         try {
           await progressDialog.show();
           final derivedKey = await CryptoUtil.deriveKey(
-            utf8.encode(password) as Uint8List,
+            utf8.encode(password),
             Sodium.base642bin(enteAuthExport.kdfParams.salt),
             enteAuthExport.kdfParams.memLimit,
             enteAuthExport.kdfParams.opsLimit,
@@ -119,7 +118,6 @@ Future<void> _decryptExportData(
           for (final code in parsedCodes) {
             await CodeStore.instance.addCode(code, shouldSync: false);
           }
-          unawaited(AuthenticatorService.instance.onlineSync());
           importedCodeCount = parsedCodes.length;
           await progressDialog.hide();
         } catch (e, s) {

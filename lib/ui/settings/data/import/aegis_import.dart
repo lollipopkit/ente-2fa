@@ -6,7 +6,6 @@ import 'package:convert/convert.dart';
 
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
-import 'package:ente_auth/services/authenticator_service.dart';
 import 'package:ente_auth/store/code_store.dart';
 import 'package:ente_auth/ui/common/progress_dialog.dart';
 import 'package:ente_auth/ui/components/buttons/button_widget.dart';
@@ -91,7 +90,7 @@ Future<int?> _processAegisExportFile(
   final jsonString = await file.readAsString();
   final decodedJson = jsonDecode(jsonString);
   final isEncrypted = decodedJson['header']['slots'] != null;
-  var aegisDB;
+  dynamic aegisDB;
   if (isEncrypted) {
     String? password;
     try {
@@ -156,7 +155,6 @@ Future<int?> _processAegisExportFile(
   for (final code in parsedCodes) {
     await CodeStore.instance.addCode(code, shouldSync: false);
   }
-  unawaited(AuthenticatorService.instance.onlineSync());
   int count = parsedCodes.length;
   return count;
 }

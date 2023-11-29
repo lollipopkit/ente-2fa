@@ -5,7 +5,6 @@ import 'dart:ui';
 import 'package:ente_auth/ente_theme_data.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
-import 'package:ente_auth/services/authenticator_service.dart';
 import 'package:ente_auth/store/code_store.dart';
 import 'package:ente_auth/ui/settings/data/import/import_success.dart';
 import 'package:ente_auth/utils/dialog_util.dart';
@@ -121,7 +120,6 @@ Future<void> _pickImportFile(BuildContext context) async {
     for (final code in parsedCodes) {
       await CodeStore.instance.addCode(code, shouldSync: false);
     }
-    unawaited(AuthenticatorService.instance.onlineSync());
     await progressDialog.hide();
     await importSuccessDialog(context, parsedCodes.length);
   } catch (e) {

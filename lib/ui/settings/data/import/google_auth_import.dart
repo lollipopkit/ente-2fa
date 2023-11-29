@@ -5,7 +5,6 @@ import 'package:base32/base32.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
 import 'package:ente_auth/models/protos/googleauth.pb.dart';
-import 'package:ente_auth/services/authenticator_service.dart';
 import 'package:ente_auth/store/code_store.dart';
 import 'package:ente_auth/ui/components/buttons/button_widget.dart';
 import 'package:ente_auth/ui/components/dialog_widget.dart';
@@ -55,7 +54,6 @@ Future<void> showGoogleAuthInstruction(BuildContext context) async {
       for (final code in codes) {
         await CodeStore.instance.addCode(code, shouldSync: false);
       }
-      unawaited(AuthenticatorService.instance.onlineSync());
       importSuccessDialog(context, codes.length);
     }
   }
