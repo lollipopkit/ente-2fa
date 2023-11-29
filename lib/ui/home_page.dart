@@ -34,8 +34,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static final _settingsPage = SettingsPage(
-  );
+  static final _settingsPage = SettingsPage();
   bool _hasLoaded = false;
   bool _isSettingsOpen = false;
   final Logger _logger = Logger("HomePage");
@@ -145,7 +144,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         drawerEnableOpenDragGesture: !Platform.isAndroid,
         drawer: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 428),
+          constraints: const BoxConstraints(maxWidth: 328),
           child: Drawer(
             width: double.infinity,
             child: _settingsPage,
@@ -163,7 +162,7 @@ class _HomePageState extends State<HomePage> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: !_showSearchBox
-              ? const Text('ente Auth')
+              ? const Text('Codes')
               : TextField(
                   autofocus: _searchText.isEmpty,
                   controller: _textController,

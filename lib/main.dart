@@ -2,8 +2,6 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:computer/computer.dart';
 import "package:ente_auth/app/view/app.dart";
 import 'package:ente_auth/core/configuration.dart';
-import 'package:ente_auth/core/constants.dart';
-import 'package:ente_auth/core/logging/super_logging.dart';
 import 'package:ente_auth/ente_theme_data.dart';
 import 'package:ente_auth/locale.dart';
 import 'package:ente_auth/services/authenticator_service.dart';
@@ -17,10 +15,7 @@ import 'package:ente_auth/utils/crypto_util.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_displaymode/flutter_displaymode.dart';
-import 'package:logging/logging.dart';
-import 'package:path_provider/path_provider.dart';
 
-final _logger = Logger("main");
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,22 +25,19 @@ void main() async {
 }
 
 Future<void> _runInForeground(AdaptiveThemeMode? savedThemeMode) async {
-  return await _runWithLogs(() async {
-    _logger.info("Starting app in foreground");
-    await _init();
-    final locale = await getLocale();
-    runApp(
-      AppLock(
-        builder: (args) => App(locale: locale),
-        lockScreen: const LockScreen(),
-        enabled: Configuration.instance.shouldShowLockScreen(),
-        locale: locale,
-        lightTheme: lightThemeData,
-        darkTheme: darkThemeData,
-        savedThemeMode: _themeMode(savedThemeMode),
-      ),
-    );
-  });
+  await _init();
+  final locale = await getLocale();
+  runApp(
+    AppLock(
+      builder: (args) => App(locale: locale),
+      lockScreen: const LockScreen(),
+      enabled: Configuration.instance.shouldShowLockScreen(),
+      locale: locale,
+      lightTheme: lightThemeData,
+      darkTheme: darkThemeData,
+      savedThemeMode: _themeMode(savedThemeMode),
+    ),
+  );
 }
 
 ThemeMode _themeMode(AdaptiveThemeMode? savedThemeMode) {
@@ -53,19 +45,6 @@ ThemeMode _themeMode(AdaptiveThemeMode? savedThemeMode) {
   if (savedThemeMode.isLight) return ThemeMode.light;
   if (savedThemeMode.isDark) return ThemeMode.dark;
   return ThemeMode.system;
-}
-
-Future _runWithLogs(Function() function, {String prefix = ""}) async {
-  await SuperLogging.main(
-    LogConfig(
-      body: function,
-      logDirPath: (await getApplicationSupportDirectory()).path + "/logs",
-      maxLogFiles: 5,
-      sentryDsn: sentryDSN,
-      enableInDebugMode: true,
-      prefix: prefix,
-    ),
-  );
 }
 
 Future<void> _init() async {

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ente_auth/app/view/app.dart';
-import 'package:ente_auth/core/logging/super_logging.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/locale.dart';
 import 'package:ente_auth/services/preference_service.dart';
@@ -128,21 +127,6 @@ class _AdvancedSectionWidgetState extends State<AdvancedSectionWidget> {
           ),
           sectionOptionSpacing,
         ],
-        MenuItemWidget(
-          captionedTextWidget: CaptionedTextWidget(
-            title: l10n.crashAndErrorReporting,
-          ),
-          trailingWidget: ToggleSwitchWidget(
-            value: () => SuperLogging.shouldReportErrors(),
-            onChanged: () async {
-              await SuperLogging.setShouldReportErrors(
-                !SuperLogging.shouldReportErrors(),
-              );
-              setState(() {});
-            },
-          ),
-        ),
-        sectionOptionSpacing,
       ],
     );
   }

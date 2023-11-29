@@ -35,7 +35,6 @@ class _CodeWidgetState extends State<CodeWidget> {
   final ValueNotifier<String> _nextCode = ValueNotifier<String>("");
   final Logger logger = Logger("_CodeWidgetState");
   bool _isInitialized = false;
-  late bool hasConfiguredAccount;
   late bool _shouldShowLargeIcon;
   late bool _hideCode;
   bool isMaskingEnabled = false;
@@ -297,21 +296,7 @@ class _CodeWidgetState extends State<CodeWidget> {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              (widget.code.hasSynced != null && widget.code.hasSynced!) ||
-                      !hasConfiguredAccount
-                  ? const SizedBox.shrink()
-                  : const Icon(
-                      Icons.sync_disabled,
-                      size: 20,
-                      color: Colors.amber,
-                    ),
-              const SizedBox(width: 12),
-              _shouldShowLargeIcon ? const SizedBox.shrink() : _getIcon(),
-            ],
-          ),
+          _shouldShowLargeIcon ? const SizedBox.shrink() : _getIcon(),
         ],
       ),
     );

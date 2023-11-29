@@ -5,10 +5,6 @@ import 'package:ente_auth/ui/settings/app_version_widget.dart';
 import 'package:ente_auth/ui/settings/data/data_section_widget.dart';
 import 'package:ente_auth/ui/settings/general_section_widget.dart';
 import 'package:ente_auth/ui/settings/security_section_widget.dart';
-import 'package:ente_auth/ui/settings/social_section_widget.dart';
-import 'package:ente_auth/ui/settings/support_section_widget.dart';
-import 'package:ente_auth/ui/settings/theme_switch_widget.dart';
-import 'package:ente_auth/ui/settings/title_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -32,13 +28,7 @@ class SettingsPage extends StatelessWidget {
       sectionSpacing,
       const SecuritySectionWidget(),
       sectionSpacing,
-      const ThemeSwitchWidget(),
-        sectionSpacing,
       const AdvancedSectionWidget(),
-      sectionSpacing,
-      const SupportSectionWidget(),
-      sectionSpacing,
-      const SocialSectionWidget(),
       sectionSpacing,
       const AboutSectionWidget(),
       const AppVersionWidget(),
@@ -53,7 +43,6 @@ class SettingsPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SettingsTitleBarWidget(),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
               child: Column(

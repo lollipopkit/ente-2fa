@@ -70,8 +70,6 @@ dependencies:
   protobuf: ^3.0.0
   qr_code_scanner: ^1.0.1
   qr_flutter: 4.0.0
-  sentry: ^7.9.0
-  sentry_flutter: ^7.9.0
   share_plus: ^7.2.1
   shared_preferences: ^2.0.5
   sqflite: ^2.1.0
