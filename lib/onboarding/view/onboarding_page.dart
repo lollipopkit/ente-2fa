@@ -69,31 +69,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           height: 200,
                         ),
                         const SizedBox(height: 12),
-                        const Text(
-                          "ente",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Montserrat',
-                            fontSize: 42,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
                         Text(
                           "Authenticator",
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         const SizedBox(height: 32),
-                        Text(
-                          l10n.onBoardingBody,
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: Colors.white38,
-                                    // color: Theme.of(context)
-                                    //                            .colorScheme
-                                    //                            .mutedTextColor,
-                                  ),
-                        ),
                       ],
                     ),
                     const SizedBox(height: 100),

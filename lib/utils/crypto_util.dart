@@ -6,7 +6,6 @@ import 'package:computer/computer.dart';
 import 'package:ente_auth/core/errors.dart';
 import 'package:ente_auth/models/derived_key_result.dart';
 import 'package:ente_auth/models/encryption_result.dart';
-import 'package:ente_auth/utils/device_info.dart';
 import 'package:flutter_sodium/flutter_sodium.dart';
 import 'package:logging/logging.dart';
 
@@ -394,8 +393,8 @@ class CryptoUtil {
     final logger = Logger("pwhash");
     int memLimit = Sodium.cryptoPwhashMemlimitSensitive;
     int opsLimit = Sodium.cryptoPwhashOpslimitSensitive;
-    if (await isLowSpecDevice()) {
-      logger.info("low spec device detected");
+    if (true) {
+      // logger.info("low spec device detected");
       // When sensitive memLimit (1 GB) is used, on low spec device the OS might
       // kill the app with OOM. To avoid that, start with 256 MB and
       // corresponding ops limit (16).

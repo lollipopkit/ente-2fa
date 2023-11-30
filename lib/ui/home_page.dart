@@ -14,14 +14,12 @@ import 'package:ente_auth/ui/code_widget.dart';
 import 'package:ente_auth/ui/common/loading_widget.dart';
 import 'package:ente_auth/ui/home/coach_mark_widget.dart';
 import 'package:ente_auth/ui/home/home_empty_state.dart';
-import 'package:ente_auth/ui/home/speed_dial_label_widget.dart';
 import 'package:ente_auth/ui/scanner_page.dart';
 import 'package:ente_auth/ui/settings_page.dart';
 import 'package:ente_auth/utils/dialog_util.dart';
 import 'package:ente_auth/utils/totp_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:logging/logging.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:uni_links/uni_links.dart';
@@ -96,33 +94,37 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _redirectToScannerPage() async {
-    final Code? code = await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return const ScannerPage();
-        },
-      ),
-    );
-    if (code != null) {
-      CodeStore.instance.addCode(code);
-      // Focus the new code by searching
-      if (_codes.length > 2) {
-        _focusNewCode(code);
+    unawaited(() async {
+      final Code? code = await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return const ScannerPage();
+          },
+        ),
+      );
+      if (code != null) {
+        CodeStore.instance.addCode(code);
+        // Focus the new code by searching
+        if (_codes.length > 2) {
+          _focusNewCode(code);
+        }
       }
-    }
+    }());
   }
 
   Future<void> _redirectToManualEntryPage() async {
-    final Code? code = await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return SetupEnterSecretKeyPage();
-        },
-      ),
-    );
-    if (code != null) {
-      CodeStore.instance.addCode(code);
-    }
+    unawaited(() async {
+      final Code? code = await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return SetupEnterSecretKeyPage();
+          },
+        ),
+      );
+      if (code != null) {
+        CodeStore.instance.addCode(code);
+      }
+    }());
   }
 
   @override
@@ -326,35 +328,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _getFab() {
-    return SpeedDial(
-      icon: Icons.add,
-      activeIcon: Icons.close,
-      spacing: 3,
-      childPadding: const EdgeInsets.all(5),
-      spaceBetweenChildren: 4,
+    return FloatingActionButton(
+      child: const Icon(Icons.add),
       tooltip: context.l10n.addCode,
       foregroundColor: Theme.of(context).colorScheme.fabForegroundColor,
       backgroundColor: Theme.of(context).colorScheme.fabBackgroundColor,
-      overlayOpacity: 0.5,
-      overlayColor: Theme.of(context).colorScheme.background,
       elevation: 8.0,
-      animationCurve: Curves.elasticInOut,
-      children: [
-        SpeedDialChild(
-          child: const Icon(Icons.qr_code),
-          foregroundColor: Theme.of(context).colorScheme.fabForegroundColor,
-          backgroundColor: Theme.of(context).colorScheme.fabBackgroundColor,
-          labelWidget: SpeedDialLabelWidget(context.l10n.scanAQrCode),
-          onTap: _redirectToScannerPage,
-        ),
-        SpeedDialChild(
-          child: const Icon(Icons.keyboard),
-          foregroundColor: Theme.of(context).colorScheme.fabForegroundColor,
-          backgroundColor: Theme.of(context).colorScheme.fabBackgroundColor,
-          labelWidget: SpeedDialLabelWidget(context.l10n.enterDetailsManually),
-          onTap: _redirectToManualEntryPage,
-        ),
-      ],
+      onPressed: () {
+        showChoiceDialog(
+          context,
+          title: 'Choose',
+          firstButtonLabel: 'Scan',
+          secondButtonLabel: 'Enter Manually',
+          firstButtonOnTap: _redirectToScannerPage,
+          secondButtonOnTap: _redirectToManualEntryPage,
+        );
+      },
     );
   }
 }

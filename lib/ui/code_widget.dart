@@ -398,7 +398,7 @@ class _CodeWidgetState extends State<CodeWidget> {
       return;
     }
     final l10n = context.l10n;
-    await showChoiceActionSheet(
+    await showChoiceDialog(
       context,
       title: l10n.deleteCodeTitle,
       body: l10n.deleteCodeMessage,

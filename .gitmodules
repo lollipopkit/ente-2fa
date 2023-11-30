@@ -1,7 +1,7 @@
-[submodule "thirdparty/sentry-dart"]
-	path = thirdparty/sentry-dart
-	url = https://github.com/ente-io/sentry-dart.git
-	branch = sentry_flutter_ente
+# [submodule "thirdparty/sentry-dart"]
+# 	path = thirdparty/sentry-dart
+# 	url = https://github.com/ente-io/sentry-dart.git
+# 	branch = sentry_flutter_ente
 # [submodule "flutter"]
 # 	path = flutter
 # 	url = https://github.com/flutter/flutter.git

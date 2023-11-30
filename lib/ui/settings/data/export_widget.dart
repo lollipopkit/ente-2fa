@@ -106,7 +106,7 @@ Future<void> _requestForEncryptionPassword(
 }
 
 Future<void> _showExportWarningDialog(BuildContext context) async {
-  await showChoiceActionSheet(
+  await showChoiceDialog(
     context,
     title: context.l10n.warning,
     body: context.l10n.exportWarningDesc,

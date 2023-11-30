@@ -153,7 +153,7 @@ class _SetupEnterSecretKeyPageState extends State<SetupEnterSecretKeyPage> {
       final issuer = _issuerController.text.trim();
       final secret = _secretController.text.trim().replaceAll(' ', '');
       if (widget.code != null && widget.code!.secret != secret) {
-        ButtonResult? result = await showChoiceActionSheet(
+        ButtonResult? result = await showChoiceDialog(
           context,
           title: context.l10n.warning,
           body: context.l10n.confirmUpdatingkey,

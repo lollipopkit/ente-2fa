@@ -34,30 +34,6 @@ class AboutSectionWidget extends StatelessWidget {
             launchUrl(Uri.parse("https://github.com/lollipopkit/ente-2fa"));
           },
         ),
-        sectionOptionSpacing,
-        MenuItemWidget(
-          captionedTextWidget: CaptionedTextWidget(
-            title: context.l10n.privacy,
-          ),
-          pressedColor: getEnteColorScheme(context).fillFaint,
-          trailingIcon: Icons.chevron_right_outlined,
-          trailingIconIsMuted: true,
-          onTap: () async {
-            launchUrl(Uri.parse("https://ente.io/privacy"));
-          },
-        ),
-        sectionOptionSpacing,
-        MenuItemWidget(
-          captionedTextWidget: CaptionedTextWidget(
-            title: context.l10n.termsOfServicesTitle,
-          ),
-          pressedColor: getEnteColorScheme(context).fillFaint,
-          trailingIcon: Icons.chevron_right_outlined,
-          trailingIconIsMuted: true,
-          onTap: () async {
-            launchUrl(Uri.parse("https://ente.io/terms"));
-          },
-        ),
       ],
     );
   }

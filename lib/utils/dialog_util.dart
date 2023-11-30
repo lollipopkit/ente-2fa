@@ -1,13 +1,11 @@
 import 'dart:math';
 
 import 'package:confetti/confetti.dart';
-import "package:dio/dio.dart";
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/typedefs.dart';
 import 'package:ente_auth/theme/colors.dart';
 import 'package:ente_auth/ui/common/loading_widget.dart';
 import 'package:ente_auth/ui/common/progress_dialog.dart';
-import 'package:ente_auth/ui/components/action_sheet_widget.dart';
 import 'package:ente_auth/ui/components/buttons/button_widget.dart';
 import 'package:ente_auth/ui/components/components_constants.dart';
 import 'package:ente_auth/ui/components/dialog_widget.dart';
@@ -40,35 +38,6 @@ Future<ButtonResult?> showErrorDialog(
   );
 }
 
-Future<ButtonResult?> showErrorDialogForException({
-  required BuildContext context,
-  required Exception exception,
-  bool isDismissible = true,
-  String apiErrorPrefix = "It looks like something went wrong.",
-}) async {
-  String errorMessage = context.l10n.tempErrorContactSupportIfPersists;
-  if (exception is DioError &&
-      exception.response != null &&
-      exception.response!.data["code"] != null) {
-    errorMessage =
-        "$apiErrorPrefix\n\nReason: " + exception.response!.data["code"];
-  }
-  return showDialogWidget(
-    context: context,
-    title: context.l10n.error,
-    icon: Icons.error_outline_outlined,
-    body: errorMessage,
-    isDismissible: isDismissible,
-    buttons: const [
-      ButtonWidget(
-        buttonType: ButtonType.secondary,
-        labelText: "OK",
-        isInAlert: true,
-      ),
-    ],
-  );
-}
-
 ///Will return null if dismissed by tapping outside
 Future<ButtonResult?> showGenericErrorDialog({
   required BuildContext context,
@@ -78,7 +47,7 @@ Future<ButtonResult?> showGenericErrorDialog({
     context: context,
     title: context.l10n.error,
     icon: Icons.error_outline_outlined,
-    body: context.l10n.itLooksLikeSomethingWentWrongPleaseRetryAfterSome,
+    body: context.l10n.oops,
     isDismissible: isDismissible,
     buttons: const [
       ButtonWidget(
@@ -163,50 +132,6 @@ Future<ButtonResult?> showChoiceDialog(
     body: body,
     buttons: buttons,
     icon: icon,
-    isDismissible: isDismissible,
-  );
-}
-
-///Will return null if dismissed by tapping outside
-Future<ButtonResult?> showChoiceActionSheet(
-  BuildContext context, {
-  required String title,
-  String? body,
-  required String firstButtonLabel,
-  String secondButtonLabel = "Cancel",
-  ButtonType firstButtonType = ButtonType.neutral,
-  ButtonType secondButtonType = ButtonType.secondary,
-  ButtonAction firstButtonAction = ButtonAction.first,
-  ButtonAction secondButtonAction = ButtonAction.cancel,
-  FutureVoidCallback? firstButtonOnTap,
-  FutureVoidCallback? secondButtonOnTap,
-  bool isCritical = false,
-  IconData? icon,
-  bool isDismissible = true,
-}) async {
-  final buttons = [
-    ButtonWidget(
-      buttonType: isCritical ? ButtonType.critical : firstButtonType,
-      labelText: firstButtonLabel,
-      isInAlert: true,
-      onTap: firstButtonOnTap,
-      buttonAction: firstButtonAction,
-      shouldStickToDarkTheme: true,
-    ),
-    ButtonWidget(
-      buttonType: secondButtonType,
-      labelText: secondButtonLabel,
-      isInAlert: true,
-      onTap: secondButtonOnTap,
-      buttonAction: secondButtonAction,
-      shouldStickToDarkTheme: true,
-    ),
-  ];
-  return showActionSheet(
-    context: context,
-    title: title,
-    body: body,
-    buttons: buttons,
     isDismissible: isDismissible,
   );
 }

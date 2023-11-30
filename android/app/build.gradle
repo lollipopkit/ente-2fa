@@ -46,7 +46,7 @@ android {
 
     defaultConfig {
         applicationId "tech.lolli.twofa"
-        minSdkVersion 20
+        minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
