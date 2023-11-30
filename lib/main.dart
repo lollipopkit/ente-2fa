@@ -1,11 +1,10 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:computer/computer.dart';
-import "package:ente_auth/app/view/app.dart";
+import 'package:ente_auth/app/app.dart';
 import 'package:ente_auth/core/configuration.dart';
 import 'package:ente_auth/ente_theme_data.dart';
 import 'package:ente_auth/locale.dart';
 import 'package:ente_auth/services/authenticator_service.dart';
-import 'package:ente_auth/services/notification_service.dart';
 import 'package:ente_auth/services/preference_service.dart';
 import 'package:ente_auth/store/code_store.dart';
 import 'package:ente_auth/ui/tools/app_lock.dart';
@@ -55,6 +54,5 @@ Future<void> _init() async {
   await CodeStore.instance.init();
   await Configuration.instance.init();
   await AuthenticatorService.instance.init();
-  await NotificationService.instance.init();
   await IconUtils.instance.init();
 }

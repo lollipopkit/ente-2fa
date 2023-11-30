@@ -12,31 +12,22 @@ import 'package:flutter_sodium/flutter_sodium.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tuple/tuple.dart';
 
 class Configuration {
   Configuration._privateConstructor();
 
   static final Configuration instance = Configuration._privateConstructor();
+
   static const emailKey = "email";
   static const keyAttributesKey = "key_attributes";
-
   static const keyShouldShowLockScreen = "should_show_lock_screen";
   static const lastTempFolderClearTimeKey = "last_temp_folder_clear_time";
-  static const keyKey = "key";
-  static const secretKeyKey = "secret_key";
-  static const authSecretKeyKey = "auth_secret_key";
   static const offlineAuthSecretKey = "offline_auth_secret_key";
   static const tokenKey = "token";
   static const encryptedTokenKey = "encrypted_token";
   static const userIDKey = "user_id";
   static const hasMigratedSecureStorageKey = "has_migrated_secure_storage";
   static const hasOptedForOfflineModeKey = "has_opted_for_offline_mode";
-  final List<String> onlineSecureKeys = [
-    keyKey,
-    secretKeyKey,
-    authSecretKeyKey,
-  ];
 
   final kTempFolderDeletionTimeBuffer = const Duration(days: 1).inMicroseconds;
 
@@ -44,9 +35,6 @@ class Configuration {
 
   late String _documentsDirectory;
   late SharedPreferences _preferences;
-  String? _key;
-  String? _secretKey;
-  String? _authSecretKey;
   String? _offlineAuthKey;
   late FlutterSecureStorage _secureStorage;
   late String _tempDirectory;
@@ -139,79 +127,6 @@ class Configuration {
     return KeyGenResult(attributes, privateAttributes, loginKey);
   }
 
-  Future<Tuple2<KeyAttributes, Uint8List>> getAttributesForNewPassword(
-    String password,
-  ) async {
-    // Get master key
-    final masterKey = getKey();
-
-    // Derive a key from the password that will be used to encrypt and
-    // decrypt the master key
-    final kekSalt = CryptoUtil.getSaltToDeriveKey();
-    final derivedKeyResult = await CryptoUtil.deriveSensitiveKey(
-      utf8.encode(password),
-      kekSalt,
-    );
-    final loginKey = await CryptoUtil.deriveLoginKey(derivedKeyResult.key);
-
-    // Encrypt the key with this derived key
-    final encryptedKeyData =
-        CryptoUtil.encryptSync(masterKey!, derivedKeyResult.key);
-
-    final existingAttributes = getKeyAttributes();
-
-    final updatedAttributes = existingAttributes!.copyWith(
-      kekSalt: Sodium.bin2base64(kekSalt),
-      encryptedKey: Sodium.bin2base64(encryptedKeyData.encryptedData!),
-      keyDecryptionNonce: Sodium.bin2base64(encryptedKeyData.nonce!),
-      memLimit: derivedKeyResult.memLimit,
-      opsLimit: derivedKeyResult.opsLimit,
-    );
-    return Tuple2(updatedAttributes, loginKey);
-  }
-
-  // decryptSecretsAndGetLoginKey decrypts the master key and recovery key
-  // with the given password and save them in local secure storage.
-  // This method also returns the keyEncKey that can be used for performing
-  // SRP setup for existing users.
-  Future<Uint8List> decryptSecretsAndGetKeyEncKey(
-    String password,
-    KeyAttributes attributes, {
-    Uint8List? keyEncryptionKey,
-  }) async {
-    _logger.info('Start decryptAndSaveSecrets');
-    keyEncryptionKey ??= await CryptoUtil.deriveKey(
-      utf8.encode(password),
-      Sodium.base642bin(attributes.kekSalt),
-      attributes.memLimit,
-      attributes.opsLimit,
-    );
-
-    _logger.info('user-key done');
-    Uint8List key;
-    try {
-      key = CryptoUtil.decryptSync(
-        Sodium.base642bin(attributes.encryptedKey),
-        keyEncryptionKey,
-        Sodium.base642bin(attributes.keyDecryptionNonce),
-      );
-    } catch (e) {
-      _logger.severe('master-key failed, incorrect password?', e);
-      throw Exception("Incorrect password");
-    }
-    _logger.info("master-key done");
-    await setKey(Sodium.bin2base64(key));
-    final secretKey = CryptoUtil.decryptSync(
-      Sodium.base642bin(attributes.encryptedSecretKey),
-      key,
-      Sodium.base642bin(attributes.secretKeyDecryptionNonce),
-    );
-    _logger.info("secret-key done");
-    await setSecretKey(Sodium.bin2base64(secretKey));
-    _logger.info('appToken done');
-    return keyEncryptionKey;
-  }
-
   Future<void> setEncryptedToken(String encryptedToken) async {
     await _preferences.setString(encryptedTokenKey, encryptedToken);
   }
@@ -249,56 +164,8 @@ class Configuration {
     }
   }
 
-  Future<void> setKey(String key) async {
-    _key = key;
-    await _secureStorage.write(
-      key: keyKey,
-      value: key,
-      iOptions: _secureStorageOptionsIOS,
-    );
-  }
-
-  Future<void> setSecretKey(String? secretKey) async {
-    _secretKey = secretKey;
-    await _secureStorage.write(
-      key: secretKeyKey,
-      value: secretKey,
-      iOptions: _secureStorageOptionsIOS,
-    );
-  }
-
-  Future<void> setAuthSecretKey(String? authSecretKey) async {
-    _authSecretKey = authSecretKey;
-    await _secureStorage.write(
-      key: authSecretKeyKey,
-      value: authSecretKey,
-      iOptions: _secureStorageOptionsIOS,
-    );
-  }
-
-  Uint8List? getKey() {
-    return _key == null ? null : Sodium.base642bin(_key!);
-  }
-
-  Uint8List? getSecretKey() {
-    return _secretKey == null ? null : Sodium.base642bin(_secretKey!);
-  }
-
-  Uint8List? getAuthSecretKey() {
-    return _authSecretKey == null ? null : Sodium.base642bin(_authSecretKey!);
-  }
-
   Uint8List? getOfflineSecretKey() {
     return _offlineAuthKey == null ? null : Sodium.base642bin(_offlineAuthKey!);
-  }
-
-  Uint8List getRecoveryKey() {
-    final keyAttributes = getKeyAttributes()!;
-    return CryptoUtil.decryptSync(
-      Sodium.base642bin(keyAttributes.recoveryKeyEncryptedWithMasterKey),
-      getKey()!,
-      Sodium.base642bin(keyAttributes.recoveryKeyDecryptionNonce),
-    );
   }
 
   // Caution: This directory is cleared on app start

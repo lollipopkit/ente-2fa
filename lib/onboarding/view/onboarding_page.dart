@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:ente_auth/app/view/app.dart';
+import 'package:ente_auth/app/app.dart';
 import 'package:ente_auth/core/configuration.dart';
 import 'package:ente_auth/ente_theme_data.dart';
 import "package:ente_auth/l10n/l10n.dart";

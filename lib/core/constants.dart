@@ -3,8 +3,6 @@ const int thumbnailQuality = 50;
 const int thumbnailLargeSize = 512;
 const int compressedThumbnailResolution = 1080;
 const int thumbnailDataLimit = 100 * 1024;
-const String sentryDSN =
-    "https://ed4ddd6309b847ba8849935e26e9b648@sentry.ente.io/9";
 const String sentryTunnel = "https://sentry-reporter.ente.io";
 const String roadmapURL = "https://roadmap.ente.io";
 const String githubIssuesUrl = "https://github.com/ente-io/auth/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc";
@@ -31,12 +29,8 @@ const mnemonicKeyWordCount = 24;
 // https://stackoverflow.com/a/61162219
 const dragSensitivity = 8;
 
-const supportEmail = 'support@ente.io';
-
 // Default values for various feature flags
 class FFDefault {
   static const bool enableStripe = true;
   static const bool disableCFWorker = false;
 }
-
-const kDefaultProductionEndpoint = 'https://api.ente.io';

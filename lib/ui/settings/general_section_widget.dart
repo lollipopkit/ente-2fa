@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:ente_auth/app/view/app.dart';
+import 'package:ente_auth/app/app.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/locale.dart';
 import 'package:ente_auth/services/preference_service.dart';
