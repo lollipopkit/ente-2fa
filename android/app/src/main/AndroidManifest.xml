@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="io.ente.auth">
+          package="tech.lolli.twofa">
     <application android:name="${applicationName}"
                  android:label="auth"
                  android:icon="@mipmap/launcher_icon"
