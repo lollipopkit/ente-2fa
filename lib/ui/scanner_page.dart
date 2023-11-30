@@ -36,23 +36,10 @@ class ScannerPageState extends State<ScannerPage> {
       appBar: AppBar(
         title: Text(l10n.scan),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
-              formatsAllowed: const [BarcodeFormat.qrcode],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: (totp != null) ? Text(totp!) : Text(l10n.scanACode),
-            ),
-          ),
-        ],
+      body: QRView(
+        key: qrKey,
+        onQRViewCreated: _onQRViewCreated,
+        formatsAllowed: const [BarcodeFormat.qrcode],
       ),
     );
   }

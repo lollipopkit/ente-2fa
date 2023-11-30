@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
@@ -16,6 +15,7 @@ import 'package:ente_auth/ui/settings/data/import/import_success.dart';
 import 'package:ente_auth/utils/dialog_util.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:pointycastle/export.dart';
@@ -86,7 +86,7 @@ Future<int?> _process2FasExportFile(
   File file = File(path);
 
   final jsonString = await file.readAsString();
-  final decodedJson = jsonDecode(jsonString);
+  final decodedJson = await compute(jsonDecode, jsonString);
   int version = (decodedJson['schemaVersion'] ?? 0) as int;
   if (version != 3 && version != 4) {
     await dialog.hide();
@@ -121,10 +121,13 @@ Future<int?> _process2FasExportFile(
         await dialog.hide();
         return null;
       }
-      final content = decrypt2FasVault(decodedJson, password: password!);
-      decodedServices = jsonDecode(content);
+      final content = await compute(
+        decrypt2FasVault,
+        {"json": decodedJson, "password": password},
+      );
+      decodedServices = await compute(jsonDecode, content);
     } catch (e, s) {
-      Logger("2FASImport").warning("exception while decrypting  backup", e, s);
+      Logger("2FASImport").warning("exception while decrypting backup", e, s);
       await dialog.hide();
       if (password != null) {
         await showErrorDialog(
@@ -169,7 +172,9 @@ Future<int?> _process2FasExportFile(
   return count;
 }
 
-String decrypt2FasVault(dynamic data, {required String password}) {
+String decrypt2FasVault(Map<String, dynamic> param) {
+  final data = param['json'];
+  final password = param['password'];
   int iterationCount = 10000;
   int keySize = 256;
   final String encryptedServices = data["servicesEncrypted"];

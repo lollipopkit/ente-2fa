@@ -47,7 +47,7 @@ class _AppState extends State<App> {
         dark: darkThemeData,
         initial: AdaptiveThemeMode.system,
         builder: (lightTheme, dartTheme) => MaterialApp(
-          title: "ente",
+          title: "2fa",
           themeMode: ThemeMode.system,
           theme: lightTheme,
           darkTheme: dartTheme,
@@ -66,7 +66,7 @@ class _AppState extends State<App> {
       );
     } else {
       return MaterialApp(
-        title: "ente",
+        title: "2fa",
         themeMode: ThemeMode.system,
         theme: lightThemeData,
         darkTheme: darkThemeData,

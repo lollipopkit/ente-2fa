@@ -92,8 +92,8 @@ Future<void> _decryptExportData(
               derivedKey,
               Sodium.base642bin(enteAuthExport.encryptionNonce),
             );
-          } catch (e,s) {
-            Logger("encryptedImport").warning('failed to decrypt',e,s);
+          } catch (e, s) {
+            Logger("encryptedImport").warning('failed to decrypt', e, s);
             showToast(context, l10n.incorrectPasswordTitle);
             isPasswordIncorrect = true;
           }
@@ -105,12 +105,12 @@ Future<void> _decryptExportData(
             });
             return;
           }
-          String content = utf8.decode(decryptedContent!);
+          final content = await compute(utf8.decode, decryptedContent!);
           List<String> splitCodes = content.split("\n");
           final parsedCodes = [];
           for (final code in splitCodes) {
             try {
-              parsedCodes.add(Code.fromRawData(code));
+              parsedCodes.add(await compute(Code.fromRawData, code));
             } catch (e) {
               Logger('EncryptedText').severe("Could not parse code", e);
             }
@@ -142,8 +142,8 @@ Future<void> _pickEnteJsonFile(BuildContext context) async {
   try {
     File file = File(result.files.single.path!);
     final jsonString = await file.readAsString();
-    EnteAuthExport exportedData =
-        EnteAuthExport.fromJson(jsonDecode(jsonString));
+    final decoded = await compute(jsonDecode, jsonString);
+    final exportedData = EnteAuthExport.fromJson(decoded);
     await _decryptExportData(context, exportedData);
   } catch (e) {
     await showErrorDialog(

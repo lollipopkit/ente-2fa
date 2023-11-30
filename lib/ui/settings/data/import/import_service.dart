@@ -28,7 +28,6 @@ class ImportService {
         break;
       case ImportType.googleAuthenticator:
         showGoogleAuthInstruction(context);
-        // showToast(context, 'coming soon');
         break;
       case ImportType.aegis:
         showAegisImportInstruction(context);

@@ -256,7 +256,7 @@
   "tempErrorContactSupportIfPersists": "看起来出了点问题。 请稍后重试。 如果错误仍然存在，请联系我们的支持团队。",
   "itLooksLikeSomethingWentWrongPleaseRetryAfterSome": "看起来出了点问题。 请稍后重试。 如果错误仍然存在，请联系我们的支持团队。",
   "about": "关于",
-  "weAreOpenSource": "我们是开源的 ！",
+  "weAreOpenSource": "开源地址",
   "privacy": "隐私",
   "terms": "使用条款",
   "checkForUpdates": "检查更新",
@@ -273,7 +273,7 @@
     "description": "Text for the button to confirm the user understands the warning"
   },
   "authToExportCodes": "请验证以导出您的代码",
-  "importSuccessTitle": "耶！",
+  "importSuccessTitle": "好耶！",
   "importSuccessDesc": "您已导入了 {count} 个代码！",
   "@importSuccessDesc": {
     "placeholders": {
@@ -328,7 +328,7 @@
   "plainText": "纯文本",
   "passwordToEncryptExport": "用来加密导出的密码",
   "export": "导出",
-  "useOffline": "无需备份即可使用",
+  "useOffline": "开始离线使用",
   "signInToBackup": "登录以备份您的代码",
   "singIn": "登录",
   "sigInBackupReminder": "请导出您的代码以确保您有可以恢复的备份。",
