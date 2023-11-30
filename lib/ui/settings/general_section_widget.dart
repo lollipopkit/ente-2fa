@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:ente_auth/app/app.dart';
+import 'package:ente_auth/core/configuration.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/locale.dart';
+import 'package:ente_auth/services/local_authentication_service.dart';
 import 'package:ente_auth/services/preference_service.dart';
 import 'package:ente_auth/theme/ente_theme.dart';
 import 'package:ente_auth/ui/components/captioned_text_widget.dart';
@@ -37,6 +39,27 @@ class _AdvancedSectionWidgetState extends State<AdvancedSectionWidget> {
     final l10n = context.l10n;
     return Column(
       children: [
+        sectionOptionSpacing,
+        MenuItemWidget(
+          captionedTextWidget: CaptionedTextWidget(
+            title: l10n.lockscreen,
+          ),
+          trailingWidget: ToggleSwitchWidget(
+            value: () => Configuration.instance.shouldShowLockScreen(),
+            onChanged: () async {
+              final hasAuthenticated = await LocalAuthenticationService.instance
+                  .requestLocalAuthForLockScreen(
+                context,
+                !Configuration.instance.shouldShowLockScreen(),
+                context.l10n.authToChangeLockscreenSetting,
+                context.l10n.lockScreenEnablePreSteps,
+              );
+              if (hasAuthenticated) {
+                setState(() {});
+              }
+            },
+          ),
+        ),
         sectionOptionSpacing,
         MenuItemWidget(
           captionedTextWidget: CaptionedTextWidget(
@@ -86,7 +109,7 @@ class _AdvancedSectionWidgetState extends State<AdvancedSectionWidget> {
               await PreferenceService.instance.setHideCodes(
                 !PreferenceService.instance.shouldHideCodes(),
               );
-              if(PreferenceService.instance.shouldHideCodes()) {
+              if (PreferenceService.instance.shouldHideCodes()) {
                 showToast(context, context.l10n.doubleTapToViewHiddenCode);
               }
               setState(() {});

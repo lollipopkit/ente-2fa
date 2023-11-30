@@ -16,6 +16,7 @@ class AboutSectionWidget extends StatelessWidget {
       title: context.l10n.about,
       selectionOptionsWidget: _getSectionOptions(context),
       leadingIcon: Icons.info_outline,
+      initialExpand: false,
     );
   }
 

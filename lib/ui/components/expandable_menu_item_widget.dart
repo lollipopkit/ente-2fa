@@ -9,10 +9,12 @@ class ExpandableMenuItemWidget extends StatefulWidget {
   final String title;
   final Widget selectionOptionsWidget;
   final IconData leadingIcon;
+  final bool initialExpand;
   const ExpandableMenuItemWidget({
     required this.title,
     required this.selectionOptionsWidget,
     required this.leadingIcon,
+    this.initialExpand = true,
     Key? key,
   }) : super(key: key);
 
@@ -22,7 +24,10 @@ class ExpandableMenuItemWidget extends StatefulWidget {
 }
 
 class _ExpandableMenuItemWidgetState extends State<ExpandableMenuItemWidget> {
-  final expandableController = ExpandableController(initialExpanded: false);
+  late final expandableController = ExpandableController(
+    initialExpanded: widget.initialExpand,
+  );
+
   @override
   void initState() {
     expandableController.addListener(() {

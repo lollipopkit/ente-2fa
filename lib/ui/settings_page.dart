@@ -3,7 +3,6 @@ import 'package:ente_auth/theme/ente_theme.dart';
 import 'package:ente_auth/ui/settings/about_section_widget.dart';
 import 'package:ente_auth/ui/settings/data/data_section_widget.dart';
 import 'package:ente_auth/ui/settings/general_section_widget.dart';
-import 'package:ente_auth/ui/settings/security_section_widget.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -23,9 +22,12 @@ class SettingsPage extends StatelessWidget {
   Widget _getBody(BuildContext context, EnteColorScheme colorScheme) {
     const sectionSpacing = SizedBox(height: 8);
     final List<Widget> contents = [
-      const DataSectionWidget(),
       sectionSpacing,
-      const SecuritySectionWidget(),
+      Image.asset('assets/app_icon.png', width: 77, height: 77),
+      sectionSpacing,
+      const Text('v1.0.0'),
+      const SizedBox(height: 37),
+      const DataSectionWidget(),
       sectionSpacing,
       const AdvancedSectionWidget(),
       sectionSpacing,
