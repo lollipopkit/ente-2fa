@@ -32,7 +32,10 @@ class AboutSectionWidget extends StatelessWidget {
           trailingIcon: Icons.chevron_right_outlined,
           trailingIconIsMuted: true,
           onTap: () async {
-            launchUrl(Uri.parse("https://github.com/lollipopkit/ente-2fa"));
+            launchUrl(
+              Uri.parse("https://github.com/lollipopkit/ente-2fa"),
+              mode: LaunchMode.externalApplication,
+            );
           },
         ),
       ],

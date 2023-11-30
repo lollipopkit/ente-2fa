@@ -16,7 +16,6 @@ Future showToast(
     timeInSecForIosWeb: 1,
     backgroundColor: Theme.of(context).colorScheme.toastBackgroundColor,
     textColor: Theme.of(context).colorScheme.toastTextColor,
-    fontSize: 16.0,
   );
 }
 

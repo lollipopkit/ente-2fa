@@ -23,21 +23,18 @@ class HomeEmptyStateWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              const SizedBox(height: 40),
+              Text(
+                l10n.setupFirstAccount,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(height: 177),
               Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(
-                    "assets/wallet-front-gradient.png",
-                    width: 200,
-                    height: 200,
-                  ),
-                  Text(
-                    l10n.setupFirstAccount,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: 64),
                   SizedBox(
                     width: 400,
                     child: OutlinedButton(
@@ -49,21 +46,22 @@ class HomeEmptyStateWidget extends StatelessWidget {
                   SizedBox(
                     width: 400,
                     child: OutlinedButton(
-                      onPressed: onManuallySetupTap,
-                      child: Text(l10n.importEnterSetupKey),
+                      onPressed: () => routeToPage(context, ImportCodePage()),
+                      child: Text(l10n.importCodes),
                     ),
                   ),
-                  const SizedBox(height: 54),
-                  InkWell(
-                    onTap: () {
-                      routeToPage(context, ImportCodePage());
-                    },
-                    child: Text(
-                      l10n.importCodes,
-                      textAlign: TextAlign.center,
-                      style: getEnteTextTheme(context).bodyFaint.copyWith(decoration: TextDecoration.underline),
-                    ),),
                 ],
+              ),
+              const SizedBox(height: 54),
+              InkWell(
+                onTap: onManuallySetupTap,
+                child: Text(
+                  l10n.importEnterSetupKey,
+                  textAlign: TextAlign.center,
+                  style: getEnteTextTheme(context)
+                      .bodyFaint
+                      .copyWith(decoration: TextDecoration.underline),
+                ),
               ),
             ],
           ),
