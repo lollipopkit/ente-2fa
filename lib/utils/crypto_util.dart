@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:typed_data';
 
@@ -467,31 +466,6 @@ class CryptoUtil {
           'opsLimit: $opsLimit';
       Logger("CryptoUtilDeriveKey").warning(errMessage, e, s);
       throw KeyDerivationError();
-    }
-  }
-
-  // derives a Login key as subKey from the given key by applying KDF
-  // (Key Derivation Function) with the `loginSubKeyId` and
-  // `loginSubKeyLen` and `loginSubKeyContext` as context
-  static Future<Uint8List> deriveLoginKey(
-    Uint8List key,
-  ) async {
-    try {
-      final Uint8List derivedKey = await _computer.compute(
-        cryptoKdfDeriveFromKey,
-        param: {
-          "key": key,
-          "subkeyId": loginSubKeyId,
-          "subkeyLen": loginSubKeyLen,
-          "context": utf8.encode(loginSubKeyContext),
-        },
-        taskName: "deriveLoginKey",
-      );
-      // return the first 16 bytes of the derived key
-      return derivedKey.sublist(0, 16);
-    } catch (e, s) {
-      Logger("deriveLoginKey").severe("loginKeyDerivation failed", e, s);
-      throw LoginKeyDerivationError();
     }
   }
 

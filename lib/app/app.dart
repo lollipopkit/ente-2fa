@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:ente_auth/core/configuration.dart';
 import 'package:ente_auth/ente_theme_data.dart';
 import "package:ente_auth/l10n/l10n.dart";
 import 'package:ente_auth/locale.dart';
-import "package:ente_auth/onboarding/view/onboarding_page.dart";
 import 'package:ente_auth/ui/home_page.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
@@ -87,10 +85,7 @@ class _AppState extends State<App> {
 
   Map<String, WidgetBuilder> get _getRoutes {
     return {
-      "/": (context) => 
-              Configuration.instance.hasOptedForOfflineMode()
-          ? const HomePage()
-          : const OnboardingPage(),
+      "/": (context) => const HomePage(),
     };
   }
 }
