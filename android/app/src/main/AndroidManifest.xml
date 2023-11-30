@@ -3,7 +3,7 @@
           package="tech.lolli.twofa">
     <application android:name="${applicationName}"
                  android:label="auth"
-                 android:icon="@mipmap/launcher_icon"
+                 android:icon="@mipmap/ic_launcher"
                  android:usesCleartextTraffic="true"
                  android:requestLegacyExternalStorage="true"
                  android:allowBackup="false"

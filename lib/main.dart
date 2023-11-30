@@ -46,7 +46,7 @@ ThemeMode _themeMode(AdaptiveThemeMode? savedThemeMode) {
 
 Future<void> _init() async {
   // Start workers asynchronously. No need to wait for them to start
-  Computer.shared().turnOn(workersCount: 4, verbose: kDebugMode);
+  Computer.shared().turnOn(workersCount: 3, verbose: kDebugMode);
   CryptoUtil.init();
   await PreferenceService.instance.init();
   await CodeStore.instance.init();
