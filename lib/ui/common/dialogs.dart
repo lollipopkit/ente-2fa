@@ -1,9 +1,9 @@
-import 'package:ente_auth/ente_theme_data.dart';
-import 'package:ente_auth/models/typedefs.dart';
-import 'package:ente_auth/ui/components/buttons/button_widget.dart';
-import 'package:ente_auth/ui/components/dialog_widget.dart';
-import 'package:ente_auth/ui/components/models/button_result.dart';
-import 'package:ente_auth/ui/components/models/button_type.dart';
+import 'package:ente_auth/data/models/typedefs.dart';
+import 'package:ente_auth/theme.dart';
+import 'package:ente_auth/ui/view/buttons/button_widget.dart';
+import 'package:ente_auth/ui/view/buttons/models/button_result.dart';
+import 'package:ente_auth/ui/view/buttons/models/button_type.dart';
+import 'package:ente_auth/ui/view/dialog.dart';
 import 'package:flutter/material.dart';
 
 enum DialogUserChoice { firstChoice, secondChoice }

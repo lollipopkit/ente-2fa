@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io' as io;
 import 'dart:typed_data';
 
-import 'package:ente_auth/utils/crypto_util.dart';
+import 'package:ente_auth/core/utils/crypto_util.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_sodium/flutter_sodium.dart';
 import 'package:logging/logging.dart';

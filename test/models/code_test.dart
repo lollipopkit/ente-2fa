@@ -1,4 +1,4 @@
-import 'package:ente_auth/models/code.dart';
+import 'package:ente_auth/data/models/code.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,16 +1,15 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:computer/computer.dart';
-import 'package:ente_auth/app/app.dart';
+import 'package:ente_auth/app.dart';
 import 'package:ente_auth/core/configuration.dart';
-import 'package:ente_auth/ente_theme_data.dart';
+import 'package:ente_auth/core/utils/crypto_util.dart';
+import 'package:ente_auth/data/services/authenticator_service.dart';
+import 'package:ente_auth/data/services/preference_service.dart';
+import 'package:ente_auth/data/store/code_store.dart';
 import 'package:ente_auth/locale.dart';
-import 'package:ente_auth/services/authenticator_service.dart';
-import 'package:ente_auth/services/preference_service.dart';
-import 'package:ente_auth/store/code_store.dart';
-import 'package:ente_auth/ui/tools/app_lock.dart';
-import 'package:ente_auth/ui/tools/lock_screen.dart';
-import 'package:ente_auth/ui/utils/icon_utils.dart';
-import 'package:ente_auth/utils/crypto_util.dart';
+import 'package:ente_auth/theme.dart';
+import 'package:ente_auth/ui/view/app_lock.dart';
+import 'package:ente_auth/ui/view/issuer_icon.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 
@@ -52,5 +51,5 @@ Future<void> _init() async {
   await CodeStore.instance.init();
   await Configuration.instance.init();
   await AuthenticatorService.instance.init();
-  await IconUtils.instance.init();
+  await IssuerIcon.instance.init();
 }
