@@ -1,12 +1,7 @@
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/theme/ente_theme.dart';
-import 'package:ente_auth/ui/components/captioned_text_widget.dart';
-import 'package:ente_auth/ui/components/divider_widget.dart';
-import 'package:ente_auth/ui/components/menu_item_widget.dart';
-import 'package:ente_auth/ui/components/separators.dart';
 import 'package:ente_auth/ui/components/title_bar_title_widget.dart';
 import 'package:ente_auth/ui/components/title_bar_widget.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class LanguageSelectorPage extends StatelessWidget {
@@ -104,13 +99,6 @@ class _ItemsWidgetState extends State<ItemsWidget> {
         _menuItemForPicker(locale),
       );
     }
-    items = addSeparators(
-      items,
-      DividerWidget(
-        dividerType: DividerType.menuNoIcon,
-        bgColor: getEnteColorScheme(context).fillFaint,
-      ),
-    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: items,
@@ -174,22 +162,19 @@ class _ItemsWidgetState extends State<ItemsWidget> {
   }
 
   Widget _menuItemForPicker(Locale locale) {
-    return MenuItemWidget(
-      key: ValueKey(locale.toString()),
-      menuItemColor: getEnteColorScheme(context).fillFaint,
-      captionedTextWidget: CaptionedTextWidget(
-        title: _getLanguageName(locale) + (kDebugMode ? ' ($locale)' : ''),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 3),
+      child: ListTile(
+        key: ValueKey(locale.toString()),
+        tileColor: getEnteColorScheme(context).fillFaint,
+        title: Text(_getLanguageName(locale)),
+        trailing: currentLocale == locale ? const Icon(Icons.check) : null,
+        onTap: () async {
+          widget.onLocaleChanged(locale);
+          currentLocale = locale;
+          setState(() {});
+        },
       ),
-      trailingIcon: currentLocale == locale ? Icons.check : null,
-      alignCaptionedTextToLeft: true,
-      isTopBorderRadiusRemoved: true,
-      isBottomBorderRadiusRemoved: true,
-      showOnlyLoadingState: true,
-      onTap: () async {
-        widget.onLocaleChanged(locale);
-        currentLocale = locale;
-        setState(() {});
-      },
     );
   }
 }

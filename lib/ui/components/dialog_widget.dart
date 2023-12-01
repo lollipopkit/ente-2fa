@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ente_auth/core/ext/list.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/typedefs.dart';
 import 'package:ente_auth/theme/colors.dart';
@@ -9,7 +10,6 @@ import 'package:ente_auth/ui/components/buttons/button_widget.dart';
 import 'package:ente_auth/ui/components/components_constants.dart';
 import 'package:ente_auth/ui/components/models/button_result.dart';
 import 'package:ente_auth/ui/components/models/button_type.dart';
-import 'package:ente_auth/ui/components/separators.dart';
 import 'package:ente_auth/ui/components/text_input_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -86,7 +86,7 @@ class DialogWidget extends StatelessWidget {
                 icon: icon,
               ),
               const SizedBox(height: 36),
-              Actions(buttons),
+              ...List<Widget>.from(buttons).joinWith(const SizedBox(height: 6)),
             ],
           ),
         ),
@@ -134,28 +134,6 @@ class ContentContainer extends StatelessWidget {
               )
             : const SizedBox.shrink(),
       ],
-    );
-  }
-}
-
-class Actions extends StatelessWidget {
-  final List<ButtonWidget> buttons;
-  const Actions(this.buttons, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: addSeparators(
-        buttons,
-        const SizedBox(
-          // In figma this white space is of height 8pts. But the Button
-          // component has 1pts of invisible border by default in code. So two
-          // 1pts borders will visually make the whitespace 8pts.
-          // Height of button component in figma = 48, in code = 50 (2pts for
-          // top + bottom border)
-          height: 6,
-        ),
-      ),
     );
   }
 }

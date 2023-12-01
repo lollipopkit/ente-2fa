@@ -2,7 +2,7 @@ import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/ui/components/dialog_widget.dart';
 import 'package:ente_auth/ui/components/models/button_type.dart';
 import 'package:ente_auth/utils/dialog_util.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 Future<void> importSuccessDialog(BuildContext context, int count) async {
   final DialogWidget dialog = choiceDialog(

@@ -20,8 +20,6 @@ dependencies:
   convert: ^3.1.1
   dio: ^5.4.0
   event_bus: ^2.0.0
-  expandable: ^5.0.1
-  expansion_tile_card: ^3.0.0
   file_picker: ^6.1.1
   fixnum: ^1.1.0
   flutter:
@@ -44,7 +42,7 @@ dependencies:
   logging: ^1.0.1
   mobile_scanner: ^3.5.5
   move_to_background: ^1.0.2
-  otp: ^3.1.1
+  otp: ^3.1.4
   path: ^1.8.3
   path_provider: ^2.0.11
   pointycastle: ^3.7.3

@@ -37,6 +37,7 @@ class _ToggleSwitchWidgetState extends State<ToggleSwitchWidget> {
     final Widget stateIcon = _stateIcon(enteColorScheme);
 
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 2),

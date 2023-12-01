@@ -1,8 +1,8 @@
+import 'package:ente_auth/core/ext/list.dart';
 import 'package:ente_auth/models/execution_states.dart';
 import 'package:ente_auth/models/typedefs.dart';
 import 'package:ente_auth/theme/ente_theme.dart';
 import 'package:ente_auth/ui/common/loading_widget.dart';
-import 'package:ente_auth/ui/components/separators.dart';
 import 'package:ente_auth/utils/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -107,7 +107,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
     }
     final colorScheme = getEnteColorScheme(context);
     final textTheme = getEnteTextTheme(context);
-    var textInputChildren = <Widget>[];
+    final textInputChildren = <Widget>[];
     if (widget.label != null) {
       textInputChildren.add(Text(widget.label!));
     }
@@ -201,8 +201,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
         ),
       );
     }
-    textInputChildren =
-        addSeparators(textInputChildren, const SizedBox(height: 4));
+    textInputChildren.joinWith(const SizedBox(height: 4));
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
