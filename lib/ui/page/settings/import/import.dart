@@ -1,4 +1,4 @@
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/ui/page/settings/import/import_service.dart';
 import 'package:ente_auth/ui/view/title_bar.dart';

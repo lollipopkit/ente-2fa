@@ -79,12 +79,10 @@ String getAbbreviationOfYear(DateTime dateTime) {
 
 //14:32
 String getTime(DateTime dateTime) {
-  final hours = dateTime.hour > 9
-      ? dateTime.hour.toString()
-      : "0${dateTime.hour}";
-  final minutes = dateTime.minute > 9
-      ? dateTime.minute.toString()
-      : "0${dateTime.minute}";
+  final hours =
+      dateTime.hour > 9 ? dateTime.hour.toString() : "0${dateTime.hour}";
+  final minutes =
+      dateTime.minute > 9 ? dateTime.minute.toString() : "0${dateTime.minute}";
   return "$hours:$minutes";
 }
 
@@ -207,14 +205,11 @@ String secondsToHHMMSS(int value) {
   h = value ~/ 3600;
   m = ((value - h * 3600)) ~/ 60;
   s = value - (h * 3600) - (m * 60);
-  final String hourLeft =
-      h.toString().length < 2 ? "0$h" : h.toString();
+  final String hourLeft = h.toString().length < 2 ? "0$h" : h.toString();
 
-  final String minuteLeft =
-      m.toString().length < 2 ? "0$m" : m.toString();
+  final String minuteLeft = m.toString().length < 2 ? "0$m" : m.toString();
 
-  final String secondsLeft =
-      s.toString().length < 2 ? "0$s" : s.toString();
+  final String secondsLeft = s.toString().length < 2 ? "0$s" : s.toString();
 
   final String result = "$hourLeft:$minuteLeft:$secondsLeft";
 

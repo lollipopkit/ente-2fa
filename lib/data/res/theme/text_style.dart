@@ -1,4 +1,4 @@
-import 'package:ente_auth/data/const/theme/colors.dart';
+import 'package:ente_auth/data/res/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 const FontWeight _regularWeight = FontWeight.w500;
@@ -159,10 +159,10 @@ EnteTextTheme darkTextTheme = _buildEnteTextStyle(
 );
 
 EnteTextTheme _buildEnteTextStyle(
-    Color color,
-    Color textMuted,
-    Color textFaint,
-    ) {
+  Color color,
+  Color textMuted,
+  Color textFaint,
+) {
   return EnteTextTheme(
     h1: h1.copyWith(color: color),
     h1Bold: h1.copyWith(color: color, fontWeight: _boldWeight),

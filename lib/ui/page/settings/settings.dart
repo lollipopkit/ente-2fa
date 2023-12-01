@@ -7,9 +7,10 @@ import 'package:ente_auth/core/utils/crypto_util.dart';
 import 'package:ente_auth/core/utils/dialog_util.dart';
 import 'package:ente_auth/core/utils/navigation_util.dart';
 import 'package:ente_auth/core/utils/toast_util.dart';
-import 'package:ente_auth/data/const/theme/colors.dart';
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
 import 'package:ente_auth/data/models/export/ente.dart';
+import 'package:ente_auth/data/res/build_data.dart';
+import 'package:ente_auth/data/res/theme/colors.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
 import 'package:ente_auth/data/services/local_auth.dart';
 import 'package:ente_auth/data/services/preference.dart';
 import 'package:ente_auth/data/store/code.dart';
@@ -63,7 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 _sectionSpacing,
                 _sectionSpacing,
-                const Text('v1.0.0'),
+                const Text('v1.0.${BuildData.build}'),
                 const SizedBox(height: 37),
                 CardX(
                   ExpandTile(

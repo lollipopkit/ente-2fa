@@ -12,8 +12,7 @@ class SecretKeyPage extends StatefulWidget {
   const SecretKeyPage({this.code, super.key});
 
   @override
-  State<SecretKeyPage> createState() =>
-      _SecretKeyPageState();
+  State<SecretKeyPage> createState() => _SecretKeyPageState();
 }
 
 class _SecretKeyPageState extends State<SecretKeyPage> {

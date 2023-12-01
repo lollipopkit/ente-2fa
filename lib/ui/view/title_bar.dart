@@ -1,4 +1,4 @@
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
 import 'package:ente_auth/ui/view/buttons/icon_button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -150,7 +150,6 @@ class TitleBarWidget extends StatelessWidget {
     return actions;
   }
 }
-
 
 class TitleBarTitleWidget extends StatelessWidget {
   final String? title;

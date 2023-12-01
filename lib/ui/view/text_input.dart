@@ -1,8 +1,8 @@
 import 'package:ente_auth/core/ext/list.dart';
 import 'package:ente_auth/core/utils/debouncer.dart';
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
 import 'package:ente_auth/data/models/execution_states.dart';
 import 'package:ente_auth/data/models/typedefs.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
 import 'package:ente_auth/ui/view/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -46,8 +46,7 @@ class _CodeTimerProgressState extends State<CodeTimerProgress>
 
   @override
   Widget build(BuildContext context) {
-    return 
-    LayoutBuilder(
+    return LayoutBuilder(
       builder: (context, constrains) {
         return Container(
           decoration: BoxDecoration(

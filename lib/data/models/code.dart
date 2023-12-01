@@ -83,21 +83,21 @@ class Code {
   static Code fromRawData(String rawData) {
     Uri uri = Uri.parse(rawData);
     try {
-    return Code(
-      _getAccount(uri),
-      _getIssuer(uri),
-      _getDigits(uri),
-      _getPeriod(uri),
-      getSanitizedSecret(uri.queryParameters['secret']!),
-      _getAlgorithm(uri),
-      _getType(uri),
-      _getCounter(uri),
-      rawData,
-    );
-    } catch(e) {
+      return Code(
+        _getAccount(uri),
+        _getIssuer(uri),
+        _getDigits(uri),
+        _getPeriod(uri),
+        getSanitizedSecret(uri.queryParameters['secret']!),
+        _getAlgorithm(uri),
+        _getType(uri),
+        _getCounter(uri),
+        rawData,
+      );
+    } catch (e) {
       // if account name contains # without encoding,
       // rest of the url are treated as url fragment
-      if(rawData.contains("#")) {
+      if (rawData.contains("#")) {
         return Code.fromRawData(rawData.replaceAll("#", '%23'));
       } else {
         rethrow;

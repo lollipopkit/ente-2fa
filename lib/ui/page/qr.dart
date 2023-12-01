@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
 import 'package:ente_auth/data/models/code.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
 import "package:ente_auth/l10n/l10n.dart";
 import "package:flutter/material.dart";
 import 'package:qr_flutter/qr_flutter.dart';

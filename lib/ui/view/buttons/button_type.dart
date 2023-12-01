@@ -1,5 +1,5 @@
-import 'package:ente_auth/data/const/theme/colors.dart';
-import 'package:ente_auth/data/const/theme/text_style.dart';
+import 'package:ente_auth/data/res/theme/colors.dart';
+import 'package:ente_auth/data/res/theme/text_style.dart';
 import 'package:ente_auth/ui/view/buttons/button_widget.dart';
 import 'package:flutter/material.dart';
 

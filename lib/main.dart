@@ -13,7 +13,6 @@ import 'package:ente_auth/ui/view/issuer_icon.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final savedThemeMode = await AdaptiveTheme.getThemeMode();

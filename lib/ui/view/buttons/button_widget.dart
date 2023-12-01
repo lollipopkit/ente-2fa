@@ -1,10 +1,10 @@
 import 'package:ente_auth/core/utils/debouncer.dart';
 import 'package:ente_auth/core/utils/dialog_util.dart';
-import 'package:ente_auth/data/const/theme/colors.dart';
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
-import 'package:ente_auth/data/const/theme/text_style.dart';
 import 'package:ente_auth/data/models/execution_states.dart';
 import 'package:ente_auth/data/models/typedefs.dart';
+import 'package:ente_auth/data/res/theme/colors.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
+import 'package:ente_auth/data/res/theme/text_style.dart';
 import 'package:ente_auth/ui/view/buttons/button_result.dart';
 import 'package:ente_auth/ui/view/buttons/button_type.dart';
 import 'package:ente_auth/ui/view/loading.dart';

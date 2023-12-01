@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:ente_auth/core/ext/list.dart';
-import 'package:ente_auth/data/const/components_constants.dart';
-import 'package:ente_auth/data/const/theme/colors.dart';
-import 'package:ente_auth/data/const/theme/effects.dart';
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
 import 'package:ente_auth/data/models/typedefs.dart';
+import 'package:ente_auth/data/res/components_constants.dart';
+import 'package:ente_auth/data/res/theme/colors.dart';
+import 'package:ente_auth/data/res/theme/effects.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/ui/view/buttons/button_result.dart';
 import 'package:ente_auth/ui/view/buttons/button_type.dart';

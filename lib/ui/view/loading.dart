@@ -1,4 +1,4 @@
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
 import 'package:flutter/material.dart';
 
 class EnteLoadingWidget extends StatelessWidget {

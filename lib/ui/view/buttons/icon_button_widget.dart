@@ -1,5 +1,5 @@
-import 'package:ente_auth/data/const/theme/colors.dart';
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
+import 'package:ente_auth/data/res/theme/colors.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
 import 'package:flutter/material.dart';
 
 enum IconButtonType {

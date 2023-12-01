@@ -14,13 +14,20 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class MigrationPayload_Algorithm extends $pb.ProtobufEnum {
-  static const MigrationPayload_Algorithm ALGORITHM_UNSPECIFIED = MigrationPayload_Algorithm._(0, _omitEnumNames ? '' : 'ALGORITHM_UNSPECIFIED');
-  static const MigrationPayload_Algorithm ALGORITHM_SHA1 = MigrationPayload_Algorithm._(1, _omitEnumNames ? '' : 'ALGORITHM_SHA1');
-  static const MigrationPayload_Algorithm ALGORITHM_SHA256 = MigrationPayload_Algorithm._(2, _omitEnumNames ? '' : 'ALGORITHM_SHA256');
-  static const MigrationPayload_Algorithm ALGORITHM_SHA512 = MigrationPayload_Algorithm._(3, _omitEnumNames ? '' : 'ALGORITHM_SHA512');
-  static const MigrationPayload_Algorithm ALGORITHM_MD5 = MigrationPayload_Algorithm._(4, _omitEnumNames ? '' : 'ALGORITHM_MD5');
+  static const MigrationPayload_Algorithm ALGORITHM_UNSPECIFIED =
+      MigrationPayload_Algorithm._(
+          0, _omitEnumNames ? '' : 'ALGORITHM_UNSPECIFIED');
+  static const MigrationPayload_Algorithm ALGORITHM_SHA1 =
+      MigrationPayload_Algorithm._(1, _omitEnumNames ? '' : 'ALGORITHM_SHA1');
+  static const MigrationPayload_Algorithm ALGORITHM_SHA256 =
+      MigrationPayload_Algorithm._(2, _omitEnumNames ? '' : 'ALGORITHM_SHA256');
+  static const MigrationPayload_Algorithm ALGORITHM_SHA512 =
+      MigrationPayload_Algorithm._(3, _omitEnumNames ? '' : 'ALGORITHM_SHA512');
+  static const MigrationPayload_Algorithm ALGORITHM_MD5 =
+      MigrationPayload_Algorithm._(4, _omitEnumNames ? '' : 'ALGORITHM_MD5');
 
-  static const $core.List<MigrationPayload_Algorithm> values = <MigrationPayload_Algorithm> [
+  static const $core.List<MigrationPayload_Algorithm> values =
+      <MigrationPayload_Algorithm>[
     ALGORITHM_UNSPECIFIED,
     ALGORITHM_SHA1,
     ALGORITHM_SHA256,
@@ -28,45 +35,61 @@ class MigrationPayload_Algorithm extends $pb.ProtobufEnum {
     ALGORITHM_MD5,
   ];
 
-  static final $core.Map<$core.int, MigrationPayload_Algorithm> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static MigrationPayload_Algorithm? valueOf($core.int value) => _byValue[value];
+  static final $core.Map<$core.int, MigrationPayload_Algorithm> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static MigrationPayload_Algorithm? valueOf($core.int value) =>
+      _byValue[value];
 
   const MigrationPayload_Algorithm._($core.int v, $core.String n) : super(v, n);
 }
 
 class MigrationPayload_DigitCount extends $pb.ProtobufEnum {
-  static const MigrationPayload_DigitCount DIGIT_COUNT_UNSPECIFIED = MigrationPayload_DigitCount._(0, _omitEnumNames ? '' : 'DIGIT_COUNT_UNSPECIFIED');
-  static const MigrationPayload_DigitCount DIGIT_COUNT_SIX = MigrationPayload_DigitCount._(1, _omitEnumNames ? '' : 'DIGIT_COUNT_SIX');
-  static const MigrationPayload_DigitCount DIGIT_COUNT_EIGHT = MigrationPayload_DigitCount._(2, _omitEnumNames ? '' : 'DIGIT_COUNT_EIGHT');
+  static const MigrationPayload_DigitCount DIGIT_COUNT_UNSPECIFIED =
+      MigrationPayload_DigitCount._(
+          0, _omitEnumNames ? '' : 'DIGIT_COUNT_UNSPECIFIED');
+  static const MigrationPayload_DigitCount DIGIT_COUNT_SIX =
+      MigrationPayload_DigitCount._(1, _omitEnumNames ? '' : 'DIGIT_COUNT_SIX');
+  static const MigrationPayload_DigitCount DIGIT_COUNT_EIGHT =
+      MigrationPayload_DigitCount._(
+          2, _omitEnumNames ? '' : 'DIGIT_COUNT_EIGHT');
 
-  static const $core.List<MigrationPayload_DigitCount> values = <MigrationPayload_DigitCount> [
+  static const $core.List<MigrationPayload_DigitCount> values =
+      <MigrationPayload_DigitCount>[
     DIGIT_COUNT_UNSPECIFIED,
     DIGIT_COUNT_SIX,
     DIGIT_COUNT_EIGHT,
   ];
 
-  static final $core.Map<$core.int, MigrationPayload_DigitCount> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static MigrationPayload_DigitCount? valueOf($core.int value) => _byValue[value];
+  static final $core.Map<$core.int, MigrationPayload_DigitCount> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static MigrationPayload_DigitCount? valueOf($core.int value) =>
+      _byValue[value];
 
-  const MigrationPayload_DigitCount._($core.int v, $core.String n) : super(v, n);
+  const MigrationPayload_DigitCount._($core.int v, $core.String n)
+      : super(v, n);
 }
 
 class MigrationPayload_OtpType extends $pb.ProtobufEnum {
-  static const MigrationPayload_OtpType OTP_TYPE_UNSPECIFIED = MigrationPayload_OtpType._(0, _omitEnumNames ? '' : 'OTP_TYPE_UNSPECIFIED');
-  static const MigrationPayload_OtpType OTP_TYPE_HOTP = MigrationPayload_OtpType._(1, _omitEnumNames ? '' : 'OTP_TYPE_HOTP');
-  static const MigrationPayload_OtpType OTP_TYPE_TOTP = MigrationPayload_OtpType._(2, _omitEnumNames ? '' : 'OTP_TYPE_TOTP');
+  static const MigrationPayload_OtpType OTP_TYPE_UNSPECIFIED =
+      MigrationPayload_OtpType._(
+          0, _omitEnumNames ? '' : 'OTP_TYPE_UNSPECIFIED');
+  static const MigrationPayload_OtpType OTP_TYPE_HOTP =
+      MigrationPayload_OtpType._(1, _omitEnumNames ? '' : 'OTP_TYPE_HOTP');
+  static const MigrationPayload_OtpType OTP_TYPE_TOTP =
+      MigrationPayload_OtpType._(2, _omitEnumNames ? '' : 'OTP_TYPE_TOTP');
 
-  static const $core.List<MigrationPayload_OtpType> values = <MigrationPayload_OtpType> [
+  static const $core.List<MigrationPayload_OtpType> values =
+      <MigrationPayload_OtpType>[
     OTP_TYPE_UNSPECIFIED,
     OTP_TYPE_HOTP,
     OTP_TYPE_TOTP,
   ];
 
-  static final $core.Map<$core.int, MigrationPayload_OtpType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static final $core.Map<$core.int, MigrationPayload_OtpType> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
   static MigrationPayload_OtpType? valueOf($core.int value) => _byValue[value];
 
   const MigrationPayload_OtpType._($core.int v, $core.String n) : super(v, n);
 }
-
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

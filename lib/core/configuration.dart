@@ -73,7 +73,7 @@ class Configuration {
       iOptions: _secureStorageOptionsIOS,
     );
   }
-  
+
   Uint8List? getOfflineSecretKey() {
     return _offlineAuthKey == null ? null : Sodium.base642bin(_offlineAuthKey!);
   }

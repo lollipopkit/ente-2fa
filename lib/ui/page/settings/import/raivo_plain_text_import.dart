@@ -51,7 +51,7 @@ Future<void> _pickRaivoJsonFile(BuildContext context) async {
   try {
     String path = result.files.single.path!;
     int? count = await _processRaivoExportFile(context, path);
-    if(count != null) {
+    if (count != null) {
       await importSuccessDialog(context, count);
     }
   } catch (e) {
@@ -63,9 +63,9 @@ Future<void> _pickRaivoJsonFile(BuildContext context) async {
   }
 }
 
-Future<int?> _processRaivoExportFile(BuildContext context,String path) async {
+Future<int?> _processRaivoExportFile(BuildContext context, String path) async {
   File file = File(path);
-  if(path.endsWith('.zip')) {
+  if (path.endsWith('.zip')) {
     await showErrorDialog(
       context,
       context.l10n.sorry,

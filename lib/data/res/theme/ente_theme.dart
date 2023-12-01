@@ -1,6 +1,6 @@
-import 'package:ente_auth/data/const/theme/colors.dart';
-import 'package:ente_auth/data/const/theme/effects.dart';
-import 'package:ente_auth/data/const/theme/text_style.dart';
+import 'package:ente_auth/data/res/theme/colors.dart';
+import 'package:ente_auth/data/res/theme/effects.dart';
+import 'package:ente_auth/data/res/theme/text_style.dart';
 import 'package:ente_auth/theme.dart';
 import 'package:flutter/material.dart';
 

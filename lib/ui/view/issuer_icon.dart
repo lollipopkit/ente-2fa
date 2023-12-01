@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ente_auth/data/const/theme/ente_theme.dart';
+import 'package:ente_auth/data/res/theme/ente_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';

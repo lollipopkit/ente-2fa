@@ -207,7 +207,6 @@ class _AppLockState extends State<AppLock> with WidgetsBindingObserver {
   }
 }
 
-
 class LockScreen extends StatefulWidget {
   const LockScreen({super.key});
 
