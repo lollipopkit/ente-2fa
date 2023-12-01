@@ -1,4 +1,4 @@
-# A forked ente Authenticator
+# flutter_2fa
 
 Which helps you generate and store 2 step verification (2FA) tokens on your mobile devices.
 
@@ -8,8 +8,7 @@ Which helps you generate and store 2 step verification (2FA) tokens on your mobi
 
 According to the [origin ente Auth](https://github.com/ente-io/auth) this forked version has the following features:
 - Support pure offline mode. No ads, no analytics, no data collection, no tracking.
-- Faster importing / exporting
-- Remove useless features (web browser...)
+- Remove useless features (web browser & etc.)
 - More optimizations
 
 ## 🙋‍♂️ Help

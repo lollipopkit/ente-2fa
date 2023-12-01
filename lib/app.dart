@@ -4,7 +4,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import "package:ente_auth/l10n/l10n.dart";
 import 'package:ente_auth/locale.dart';
 import 'package:ente_auth/theme.dart';
-import 'package:ente_auth/ui/page/home/home_page.dart';
+import 'package:ente_auth/ui/page/home.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_localizations/flutter_localizations.dart';

@@ -5,17 +5,18 @@ import 'package:ente_auth/core/event_bus.dart';
 import 'package:ente_auth/core/events/codes_updated_event.dart';
 import 'package:ente_auth/core/events/icons_changed_event.dart';
 import 'package:ente_auth/core/utils/dialog_util.dart';
+import 'package:ente_auth/core/utils/navigation_util.dart';
 import 'package:ente_auth/core/utils/totp_util.dart';
+import 'package:ente_auth/data/const/theme/ente_theme.dart';
 import 'package:ente_auth/data/models/code.dart';
 import 'package:ente_auth/data/services/preference_service.dart';
 import 'package:ente_auth/data/store/code_store.dart';
 import "package:ente_auth/l10n/l10n.dart";
 import 'package:ente_auth/theme.dart';
 import 'package:ente_auth/ui/common/loading_widget.dart';
-import 'package:ente_auth/ui/page/home/coach_mark_widget.dart';
-import 'package:ente_auth/ui/page/home/home_empty_state.dart';
 import 'package:ente_auth/ui/page/scanner/general.dart';
 import 'package:ente_auth/ui/page/secret_key.dart';
+import 'package:ente_auth/ui/page/settings/import/import.dart';
 import 'package:ente_auth/ui/page/settings/settings.dart';
 import 'package:ente_auth/ui/view/code.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ class _HomePageState extends State<HomePage> {
   List<Code> _filteredCodes = [];
   StreamSubscription<CodesUpdatedEvent>? _streamSubscription;
   StreamSubscription<IconsChangedEvent>? _iconsChangedEvent;
+  late AppLocalizations l10n;
 
   @override
   void initState() {
@@ -58,6 +60,12 @@ class _HomePageState extends State<HomePage> {
       setState(() {});
     });
     _showSearchBox = PreferenceService.instance.shouldAutoFocusOnSearchBar();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    l10n = context.l10n;
   }
 
   void _loadCodes() {
@@ -129,7 +137,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return WillPopScope(
       onWillPop: () async {
         if (_isSettingsOpen) {
@@ -144,7 +151,6 @@ class _HomePageState extends State<HomePage> {
         }
       },
       child: Scaffold(
-        drawerEnableOpenDragGesture: true,
         drawer: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 328),
           child: const Drawer(
@@ -200,77 +206,59 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        floatingActionButton: !_hasLoaded ||
-                _codes.isEmpty ||
-                !PreferenceService.instance.hasShownCoachMark()
-            ? null
-            : _getFab(),
+        floatingActionButton: !_hasLoaded || _codes.isEmpty ? null : _getFab(),
       ),
     );
   }
 
   Widget _getBody() {
-    final l10n = context.l10n;
-    if (_hasLoaded) {
-      if (_filteredCodes.isEmpty && _searchText.isEmpty) {
-        return HomeEmptyStateWidget(
-          onScanTap: _redirectToScannerPage,
-          onManuallySetupTap: _redirectToManualEntryPage,
-        );
-      } else {
-        final list = ListView.builder(
-          itemBuilder: ((context, index) {
-            try {
-              return CodeWidget(_filteredCodes[index]);
-            } catch (e) {
-              return const Text("Failed");
-            }
-          }),
-          itemCount: _filteredCodes.length,
-        );
-        if (!PreferenceService.instance.hasShownCoachMark()) {
-          return Stack(
-            children: [
-              list,
-              const CoachMarkWidget(),
-            ],
-          );
-        } else if (_showSearchBox) {
-          return Column(
-            children: [
-              Expanded(
-                child: _filteredCodes.isNotEmpty
-                    ? ListView.builder(
-                        itemBuilder: ((context, index) {
-                          Code? code;
-                          try {
-                            code = _filteredCodes[index];
-                            return CodeWidget(code);
-                          } catch (e, s) {
-                            _logger.severe("code widget error", e, s);
-                            return Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  l10n.sorryUnableToGenCode(code?.issuer ?? ""),
-                                ),
-                              ),
-                            );
-                          }
-                        }),
-                        itemCount: _filteredCodes.length,
-                      )
-                    : Center(child: (Text(l10n.noResult))),
-              ),
-            ],
-          );
-        } else {
-          return list;
-        }
-      }
-    } else {
-      return const EnteLoadingWidget();
+    if (!_hasLoaded) return const EnteLoadingWidget();
+
+    if (_filteredCodes.isEmpty && _searchText.isEmpty) {
+      return _buildEmptyHome();
     }
+
+    final list = ListView.builder(
+      itemBuilder: ((context, index) {
+        try {
+          return CodeWidget(_filteredCodes[index]);
+        } catch (e) {
+          return const Text("Failed");
+        }
+      }),
+      itemCount: _filteredCodes.length,
+    );
+
+    if (!_showSearchBox) return list;
+
+    return Column(
+      children: [
+        Expanded(
+          child: _filteredCodes.isNotEmpty
+              ? ListView.builder(
+                  itemBuilder: ((context, index) {
+                    Code? code;
+                    try {
+                      code = _filteredCodes[index];
+                      return CodeWidget(code);
+                    } catch (e, s) {
+                      _logger.severe("code widget error", e, s);
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            l10n.sorryUnableToGenCode(code?.issuer ?? ""),
+                          ),
+                        ),
+                      );
+                    }
+                  }),
+                  itemCount: _filteredCodes.length,
+                )
+              : Center(child: (Text(l10n.noResult))),
+        ),
+      ],
+    );
   }
 
   Future<bool> _initDeepLinks() async {
@@ -344,6 +332,63 @@ class _HomePageState extends State<HomePage> {
           secondButtonOnTap: _redirectToManualEntryPage,
         );
       },
+    );
+  }
+
+  Widget _buildEmptyHome() {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints.tightFor(height: 800, width: 450),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const SizedBox(height: 40),
+              Text(
+                l10n.setupFirstAccount,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(height: 177),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 400,
+                    child: OutlinedButton(
+                      onPressed: _redirectToScannerPage,
+                      child: Text(l10n.importScanQrCode),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  SizedBox(
+                    width: 400,
+                    child: OutlinedButton(
+                      onPressed: () => routeToPage(
+                        context,
+                        const ImportCodePage(),
+                      ),
+                      child: Text(l10n.importCodes),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 54),
+              InkWell(
+                onTap: _redirectToManualEntryPage,
+                child: Text(
+                  l10n.importEnterSetupKey,
+                  textAlign: TextAlign.center,
+                  style: getEnteTextTheme(context)
+                      .bodyFaint
+                      .copyWith(decoration: TextDecoration.underline),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

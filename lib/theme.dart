@@ -6,7 +6,7 @@ final lightThemeData = ThemeData(
   fontFamily: 'Inter',
   brightness: Brightness.light,
   hintColor: const Color.fromRGBO(158, 158, 158, 1),
-  primaryColor: const Color.fromRGBO(255, 110, 64, 1),
+  primaryColor: const Color.fromARGB(255, 56, 13, 0),
   primaryColorLight: const Color.fromRGBO(0, 0, 0, 0.541),
   iconTheme: const IconThemeData(color: Colors.black),
   primaryIconTheme:
@@ -56,56 +56,6 @@ final lightThemeData = ThemeData(
         color: Color.fromARGB(255, 152, 77, 244),
       ),
     ),
-  ),
-  checkboxTheme: CheckboxThemeData(
-    side: const BorderSide(
-      color: Colors.black,
-      width: 2,
-    ),
-    fillColor: MaterialStateProperty.resolveWith((states) {
-      return states.contains(MaterialState.selected)
-          ? const Color.fromRGBO(0, 0, 0, 1)
-          : const Color.fromRGBO(255, 255, 255, 1);
-    }),
-    checkColor: MaterialStateProperty.resolveWith((states) {
-      return states.contains(MaterialState.selected)
-          ? const Color.fromRGBO(255, 255, 255, 1)
-          : const Color.fromRGBO(0, 0, 0, 1);
-    }),
-  ),
-  radioTheme: RadioThemeData(
-    fillColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return const Color.fromRGBO(102, 187, 106, 1);
-      }
-      return null;
-    }),
-  ),
-  switchTheme: SwitchThemeData(
-    thumbColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return const Color.fromRGBO(102, 187, 106, 1);
-      }
-      return null;
-    }),
-    trackColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return const Color.fromRGBO(102, 187, 106, 1);
-      }
-      return null;
-    }),
   ),
   colorScheme: const ColorScheme.light(
     primary: Colors.black,
@@ -162,60 +112,6 @@ final darkThemeData = ThemeData(
         color: Color.fromARGB(255, 152, 77, 244),
       ),
     ),
-  ),
-  checkboxTheme: CheckboxThemeData(
-    side: const BorderSide(
-      color: Colors.grey,
-      width: 2,
-    ),
-    fillColor: MaterialStateProperty.resolveWith((states) {
-      if (states.contains(MaterialState.selected)) {
-        return const Color.fromRGBO(158, 158, 158, 1);
-      } else {
-        return const Color.fromRGBO(0, 0, 0, 1);
-      }
-    }),
-    checkColor: MaterialStateProperty.resolveWith((states) {
-      if (states.contains(MaterialState.selected)) {
-        return const Color.fromRGBO(0, 0, 0, 1);
-      } else {
-        return const Color.fromRGBO(158, 158, 158, 1);
-      }
-    }),
-  ),
-  radioTheme: RadioThemeData(
-    fillColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return const Color.fromRGBO(102, 187, 106, 1);
-      }
-      return null;
-    }),
-  ),
-  switchTheme: SwitchThemeData(
-    thumbColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return const Color.fromRGBO(102, 187, 106, 1);
-      }
-      return null;
-    }),
-    trackColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return const Color.fromRGBO(102, 187, 106, 1);
-      }
-      return null;
-    }),
   ),
   colorScheme: const ColorScheme.dark(primary: Colors.white)
       .copyWith(background: const Color.fromRGBO(0, 0, 0, 1)),

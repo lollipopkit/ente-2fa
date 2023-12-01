@@ -11,7 +11,7 @@ class ExpandTile extends ExpansionTile {
     super.subtitle,
     super.initiallyExpanded,
     super.tilePadding,
-    super.childrenPadding,
+    super.childrenPadding = const EdgeInsets.only(left: 37),
     super.trailing,
     super.controller,
   }) : super(shape: _shape, collapsedShape: _shape);

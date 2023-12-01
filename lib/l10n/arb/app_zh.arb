@@ -336,7 +336,7 @@
   "showLargeIcons": "显示大图标",
   "shouldHideCode": "首页隐藏验证码",
   "doubleTapToViewHiddenCode": "您可以双击条目来查看代码",
-  "focusOnSearchBar": "应用启动后打开搜索",
+  "focusOnSearchBar": "启动后打开搜索",
   "confirmUpdatingkey": "您确定要更新此密钥吗？",
   "minimizeAppOnCopy": "复制后最小化应用",
   "editCodeAuthMessage": "编辑代码需要身份验证",

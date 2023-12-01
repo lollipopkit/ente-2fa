@@ -22,7 +22,6 @@ import 'package:ente_auth/ui/view/buttons/models/button_type.dart';
 import 'package:ente_auth/ui/view/cardx.dart';
 import 'package:ente_auth/ui/view/dialog.dart';
 import 'package:ente_auth/ui/view/expand_tile.dart';
-import 'package:ente_auth/ui/view/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sodium/flutter_sodium.dart';
 import 'package:logging/logging.dart';
@@ -87,9 +86,9 @@ class SettingsPage extends StatelessWidget {
           children: [
             ListTile(
               title: Text(l10n.lockscreen),
-              trailing: ToggleSwitchWidget(
-                value: () => Configuration.instance.shouldShowLockScreen(),
-                onChanged: () async {
+              trailing: Switch(
+                value: Configuration.instance.shouldShowLockScreen(),
+                onChanged: (val) async {
                   await LocalAuthenticationService.instance
                       .requestLocalAuthForLockScreen(
                     context,
@@ -121,9 +120,9 @@ class SettingsPage extends StatelessWidget {
             ),
             ListTile(
               title: Text(l10n.showLargeIcons),
-              trailing: ToggleSwitchWidget(
-                value: () => PreferenceService.instance.shouldShowLargeIcons(),
-                onChanged: () async {
+              trailing: Switch(
+                value: PreferenceService.instance.shouldShowLargeIcons(),
+                onChanged: (val) async {
                   await PreferenceService.instance.setShowLargeIcons(
                     !PreferenceService.instance.shouldShowLargeIcons(),
                   );
@@ -132,9 +131,9 @@ class SettingsPage extends StatelessWidget {
             ),
             ExpandTile(
               title: Text(l10n.shouldHideCode),
-              trailing: ToggleSwitchWidget(
-                value: () => PreferenceService.instance.shouldHideCodes(),
-                onChanged: () async {
+              trailing: Switch(
+                value: PreferenceService.instance.shouldHideCodes(),
+                onChanged: (val) async {
                   await PreferenceService.instance.setHideCodes(
                     !PreferenceService.instance.shouldHideCodes(),
                   );
@@ -146,10 +145,9 @@ class SettingsPage extends StatelessWidget {
             ),
             ExpandTile(
               title: Text(l10n.focusOnSearchBar),
-              trailing: ToggleSwitchWidget(
-                value: () =>
-                    PreferenceService.instance.shouldAutoFocusOnSearchBar(),
-                onChanged: () async {
+              trailing: Switch(
+                value: PreferenceService.instance.shouldAutoFocusOnSearchBar(),
+                onChanged: (val) async {
                   await PreferenceService.instance.setAutoFocusOnSearchBar(
                     !PreferenceService.instance.shouldAutoFocusOnSearchBar(),
                   );
@@ -159,10 +157,9 @@ class SettingsPage extends StatelessWidget {
             if (Platform.isAndroid)
               ExpandTile(
                 title: Text(l10n.minimizeAppOnCopy),
-                trailing: ToggleSwitchWidget(
-                  value: () =>
-                      PreferenceService.instance.shouldMinimizeOnCopy(),
-                  onChanged: () async {
+                trailing: Switch(
+                  value: PreferenceService.instance.shouldMinimizeOnCopy(),
+                  onChanged: (val) async {
                     await PreferenceService.instance.setShouldMinimizeOnCopy(
                       !PreferenceService.instance.shouldMinimizeOnCopy(),
                     );
@@ -184,7 +181,7 @@ class SettingsPage extends StatelessWidget {
               trailing: const Icon(Icons.chevron_right_outlined),
               onTap: () async {
                 launchUrl(
-                  Uri.parse("https://github.com/lollipopkit/ente-2fa"),
+                  Uri.parse("https://github.com/lollipopkit/flutter_2fa"),
                   mode: LaunchMode.externalApplication,
                 );
               },

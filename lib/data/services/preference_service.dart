@@ -9,7 +9,6 @@ class PreferenceService {
 
   late final SharedPreferences _prefs;
 
-  static const kHasShownCoachMarkKey = "has_shown_coach_mark";
   static const kShouldShowLargeIconsKey = "should_show_large_icons";
   static const kShouldHideCodesKey = "should_hide_codes";
   static const kShouldAutoFocusOnSearchBar = "should_auto_focus_on_search_bar";
@@ -17,18 +16,6 @@ class PreferenceService {
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
-  }
-
-  bool hasShownCoachMark() {
-    if (_prefs.containsKey(kHasShownCoachMarkKey)) {
-      return _prefs.getBool(kHasShownCoachMarkKey)!;
-    } else {
-      return false;
-    }
-  }
-
-  Future<void> setHasShownCoachMark(bool value) {
-    return _prefs.setBool(kHasShownCoachMarkKey, value);
   }
 
   bool shouldShowLargeIcons() {

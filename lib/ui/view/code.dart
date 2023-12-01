@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:clipboard/clipboard.dart';
 import 'package:ente_auth/core/utils/dialog_util.dart';
 import 'package:ente_auth/core/utils/toast_util.dart';
 import 'package:ente_auth/core/utils/totp_util.dart';
@@ -16,6 +15,7 @@ import 'package:ente_auth/ui/page/secret_key.dart';
 import 'package:ente_auth/ui/view/code_progress.dart';
 import 'package:ente_auth/ui/view/issuer_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:logging/logging.dart';
 import 'package:move_to_background/move_to_background.dart';
@@ -336,7 +336,7 @@ class _CodeWidgetState extends State<CodeWidget> {
     final shouldMinimizeOnCopy =
         PreferenceService.instance.shouldMinimizeOnCopy();
 
-    await FlutterClipboard.copy(content);
+    await Clipboard.setData(ClipboardData(text: content));
     showToast(context, confirmationMessage);
     if (Platform.isAndroid && shouldMinimizeOnCopy) {
       MoveToBackground.moveTaskToBack();
