@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:ente_auth/data/models/authenticator/auth_entity.dart';
 import 'package:ente_auth/data/models/authenticator/local_auth_entity.dart';
@@ -8,14 +7,15 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class OfflineAuthenticatorDB {
+class AuthStore {
   static const _databaseName = "ente.offline_authenticator.db";
   static const _databaseVersion = 1;
 
   static const entityTable = 'entities';
 
-  OfflineAuthenticatorDB._privateConstructor();
-  static final OfflineAuthenticatorDB instance = OfflineAuthenticatorDB._privateConstructor();
+  AuthStore._();
+
+  static final instance = AuthStore._();
 
   static Future<Database>? _dbFuture;
 
@@ -25,9 +25,8 @@ class OfflineAuthenticatorDB {
   }
 
   Future<Database> _initDatabase() async {
-    final Directory documentsDirectory =
-    await getApplicationDocumentsDirectory();
-    final String path = join(documentsDirectory.path, _databaseName);
+    final documentsDirectory = await getApplicationDocumentsDirectory();
+    final path = join(documentsDirectory.path, _databaseName);
     debugPrint(path);
     return await openDatabase(
       path,
@@ -70,10 +69,10 @@ class OfflineAuthenticatorDB {
   }
 
   Future<int> updateEntry(
-      int generatedID,
-      String encData,
-      String header,
-      ) async {
+    int generatedID,
+    String encData,
+    String header,
+  ) async {
     final db = await instance.database;
     final int timeInMicroSeconds = DateTime.now().microsecondsSinceEpoch;
     int affectedRows = await db.update(

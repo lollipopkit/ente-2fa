@@ -1,6 +1,6 @@
 import 'package:ente_auth/core/utils/dialog_util.dart';
 import 'package:ente_auth/l10n/l10n.dart';
-import 'package:ente_auth/ui/view/buttons/models/button_type.dart';
+import 'package:ente_auth/ui/view/buttons/button_type.dart';
 import 'package:ente_auth/ui/view/dialog.dart';
 import 'package:flutter/material.dart';
 

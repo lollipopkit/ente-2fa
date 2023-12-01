@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:ente_auth/core/utils/dialog_util.dart';
 import 'package:ente_auth/data/models/code.dart';
-import 'package:ente_auth/data/store/code_store.dart';
+import 'package:ente_auth/data/store/code.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/theme.dart';
 import 'package:ente_auth/ui/page/settings/import/import_success.dart';

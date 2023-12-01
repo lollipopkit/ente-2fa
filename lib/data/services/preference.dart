@@ -3,9 +3,9 @@ import 'package:ente_auth/core/events/icons_changed_event.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceService {
-  PreferenceService._privateConstructor();
-  static final PreferenceService instance =
-      PreferenceService._privateConstructor();
+  PreferenceService._();
+
+  static final instance = PreferenceService._();
 
   late final SharedPreferences _prefs;
 

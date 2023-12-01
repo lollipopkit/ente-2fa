@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LocalAuthenticationService {
-  LocalAuthenticationService._privateConstructor();
-  static final LocalAuthenticationService instance =
-      LocalAuthenticationService._privateConstructor();
+  LocalAuthenticationService._();
+
+  static final instance = LocalAuthenticationService._();
 
   Future<bool> requestLocalAuthentication(
     BuildContext context,

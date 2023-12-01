@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:ente_auth/core/utils/auth_util.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/locale.dart';
-import 'package:ente_auth/ui/common/gradient_button.dart';
+import 'package:ente_auth/ui/view/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 

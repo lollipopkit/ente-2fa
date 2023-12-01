@@ -6,11 +6,11 @@ import 'dart:io';
 
 import 'package:ente_auth/core/utils/dialog_util.dart';
 import 'package:ente_auth/data/models/code.dart';
-import 'package:ente_auth/data/store/code_store.dart';
+import 'package:ente_auth/data/store/code.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/ui/page/settings/import/import_success.dart';
+import 'package:ente_auth/ui/view/buttons/button_type.dart';
 import 'package:ente_auth/ui/view/buttons/button_widget.dart';
-import 'package:ente_auth/ui/view/buttons/models/button_type.dart';
 import 'package:ente_auth/ui/view/dialog.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';

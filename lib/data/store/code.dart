@@ -3,9 +3,8 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:ente_auth/core/event_bus.dart';
 import 'package:ente_auth/core/events/codes_updated_event.dart';
-import 'package:ente_auth/data/models/authenticator/entity_result.dart';
 import 'package:ente_auth/data/models/code.dart';
-import 'package:ente_auth/data/services/authenticator_service.dart';
+import 'package:ente_auth/data/services/auth.dart';
 import 'package:logging/logging.dart';
 
 class CodeStore {
@@ -21,8 +20,7 @@ class CodeStore {
   }
 
   Future<List<Code>> getAllCodes() async {
-    final List<EntityResult> entities =
-        await _authenticatorService.getEntities();
+    final entities = await _authenticatorService.getEntities();
     final List<Code> codes = [];
     for (final entity in entities) {
       final decodeJson = jsonDecode(entity.rawData);

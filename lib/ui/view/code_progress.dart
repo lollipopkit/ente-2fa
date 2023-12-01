@@ -52,7 +52,7 @@ class _CodeTimerProgressState extends State<CodeTimerProgress>
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            color: _progress > 0.4 ? Colors.green : Colors.orange,
+            color: _progress > 0.4 ? Colors.green : Colors.red,
           ),
           width: constrains.maxWidth * _progress,
           height: 4,

@@ -5,10 +5,9 @@ import 'package:ente_auth/data/const/theme/ente_theme.dart';
 import 'package:ente_auth/data/const/theme/text_style.dart';
 import 'package:ente_auth/data/models/execution_states.dart';
 import 'package:ente_auth/data/models/typedefs.dart';
-import 'package:ente_auth/ui/common/loading_widget.dart';
-import 'package:ente_auth/ui/view/buttons/models/button_result.dart';
-import 'package:ente_auth/ui/view/buttons/models/button_type.dart';
-import 'package:ente_auth/ui/view/buttons/models/custom_button_style.dart';
+import 'package:ente_auth/ui/view/buttons/button_result.dart';
+import 'package:ente_auth/ui/view/buttons/button_type.dart';
+import 'package:ente_auth/ui/view/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -523,4 +522,36 @@ class _ButtonChildWidgetState extends State<ButtonChildWidget> {
     iconColor = widget.buttonStyle.defaultIconColor;
     labelStyle = widget.buttonStyle.defaultLabelStyle;
   }
+}
+
+class CustomButtonStyle {
+  Color defaultButtonColor;
+  Color? pressedButtonColor;
+  Color? disabledButtonColor;
+  Color defaultBorderColor;
+  Color? pressedBorderColor;
+  Color? disabledBorderColor;
+  Color defaultIconColor;
+  Color? pressedIconColor;
+  Color? disabledIconColor;
+  TextStyle defaultLabelStyle;
+  TextStyle? pressedLabelStyle;
+  TextStyle? disabledLabelStyle;
+  Color? checkIconColor;
+
+  CustomButtonStyle({
+    required this.defaultButtonColor,
+    this.pressedButtonColor,
+    this.disabledButtonColor,
+    required this.defaultBorderColor,
+    this.pressedBorderColor,
+    this.disabledBorderColor,
+    required this.defaultIconColor,
+    this.pressedIconColor,
+    this.disabledIconColor,
+    required this.defaultLabelStyle,
+    this.pressedLabelStyle,
+    this.disabledLabelStyle,
+    this.checkIconColor,
+  });
 }

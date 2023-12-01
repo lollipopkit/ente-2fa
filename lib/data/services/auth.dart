@@ -5,7 +5,7 @@ import 'package:ente_auth/core/configuration.dart';
 import 'package:ente_auth/core/utils/crypto_util.dart';
 import 'package:ente_auth/data/models/authenticator/entity_result.dart';
 import 'package:ente_auth/data/models/authenticator/local_auth_entity.dart';
-import 'package:ente_auth/data/store/offline_authenticator_db.dart';
+import 'package:ente_auth/data/store/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_sodium/flutter_sodium.dart';
 import 'package:logging/logging.dart';
@@ -13,15 +13,14 @@ import 'package:logging/logging.dart';
 class AuthenticatorService {
   final _logger = Logger((AuthenticatorService).toString());
   final _config = Configuration.instance;
-  late OfflineAuthenticatorDB _offlineDb;
+  late AuthStore _offlineDb;
 
-  AuthenticatorService._privateConstructor();
+  AuthenticatorService._();
 
-  static final AuthenticatorService instance =
-      AuthenticatorService._privateConstructor();
+  static final instance = AuthenticatorService._();
 
   Future<void> init() async {
-    _offlineDb = OfflineAuthenticatorDB.instance;
+    _offlineDb = AuthStore.instance;
   }
 
   Future<List<EntityResult>> getEntities() async {
