@@ -45,22 +45,17 @@ Future<void> showRaivoImportInstruction(BuildContext context) async {
 }
 
 Future<void> _pickRaivoJsonFile(BuildContext context) async {
-  final l10n = context.l10n;
   FilePickerResult? result = await FilePicker.platform.pickFiles();
   if (result == null) {
     return;
   }
-  final progressDialog = createProgressDialog(context, l10n.pleaseWait);
-  await progressDialog.show();
   try {
     String path = result.files.single.path!;
     int? count = await _processRaivoExportFile(context, path);
-    await progressDialog.hide();
     if(count != null) {
       await importSuccessDialog(context, count);
     }
   } catch (e) {
-    await progressDialog.hide();
     await showErrorDialog(
       context,
       context.l10n.sorry,

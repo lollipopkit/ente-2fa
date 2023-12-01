@@ -7,7 +7,6 @@ import 'package:convert/convert.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
 import 'package:ente_auth/store/code_store.dart';
-import 'package:ente_auth/ui/common/progress_dialog.dart';
 import 'package:ente_auth/ui/components/buttons/button_widget.dart';
 import 'package:ente_auth/ui/components/dialog_widget.dart';
 import 'package:ente_auth/ui/components/models/button_type.dart';
@@ -59,19 +58,14 @@ Future<void> _pickAegisJsonFile(BuildContext context) async {
   if (result == null) {
     return;
   }
-  final ProgressDialog progressDialog =
-      createProgressDialog(context, l10n.pleaseWait);
-  await progressDialog.show();
   try {
     String path = result.files.single.path!;
-    int? count = await _processAegisExportFile(context, path, progressDialog);
-    await progressDialog.hide();
+    int? count = await _processAegisExportFile(context, path);
     if (count != null) {
       await importSuccessDialog(context, count);
     }
   } catch (e, s) {
     Logger('AegisImport').severe('exception while processing for aegis', e, s);
-    await progressDialog.hide();
     await showErrorDialog(
       context,
       context.l10n.sorry,
@@ -83,7 +77,6 @@ Future<void> _pickAegisJsonFile(BuildContext context) async {
 Future<int?> _processAegisExportFile(
   BuildContext context,
   String path,
-  final ProgressDialog dialog,
 ) async {
   File file = File(path);
 
@@ -104,7 +97,6 @@ Future<int?> _processAegisExportFile(
         },
       );
       if (password == null) {
-        await dialog.hide();
         return null;
       }
       final content = decryptAegisVault(decodedJson, password: password!);
@@ -112,7 +104,6 @@ Future<int?> _processAegisExportFile(
     } catch (e, s) {
       Logger("AegisImport")
           .warning("exception while decrypting aegis vault", e, s);
-      await dialog.hide();
       if (password != null) {
         await showErrorDialog(
           context,

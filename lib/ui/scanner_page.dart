@@ -24,36 +24,32 @@ class ScannerPageState extends State<ScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          MobileScanner(
-            controller: MobileScannerController(
-              detectionSpeed: DetectionSpeed.normal,
-              facing: CameraFacing.back,
-            ),
-            onDetect: (capture) {
-              final List<Barcode> barcodes = capture.barcodes;
-              final code = Code.fromRawData(
-                barcodes
-                    .where((element) => element.rawValue != null)
-                    .map((e) => e.rawValue!)
-                    .toList()
-                    .first,
-              );
-              Navigator.of(context).pop(code);
-            },
-            fit: BoxFit.cover,
-          ),
-          CustomPaint(
-            painter: ScannerOverlay(
-              Rect.fromCenter(
-                center: size.center(Offset.zero),
-                width: size.width * 0.77,
-                height: size.width * 0.77,
-              ),
+      body: MobileScanner(
+        controller: MobileScannerController(
+          detectionSpeed: DetectionSpeed.normal,
+          facing: CameraFacing.back,
+        ),
+        onDetect: (capture) {
+          final List<Barcode> barcodes = capture.barcodes;
+          final code = Code.fromRawData(
+            barcodes
+                .where((element) => element.rawValue != null)
+                .map((e) => e.rawValue!)
+                .toList()
+                .first,
+          );
+          Navigator.of(context).pop(code);
+        },
+        fit: BoxFit.cover,
+        overlay: CustomPaint(
+          painter: ScannerOverlay(
+            Rect.fromCenter(
+              center: Offset.zero,
+              width: size.width * 0.77,
+              height: size.width * 0.77,
             ),
           ),
-        ],
+        ),
       ),
     );
   }

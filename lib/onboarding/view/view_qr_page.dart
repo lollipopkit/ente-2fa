@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import "package:ente_auth/l10n/l10n.dart";
@@ -23,79 +22,71 @@ class ViewQrPage extends StatelessWidget {
         title: Text(l10n.qrCode),
       ),
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
-            child: Column(
-              children: [
-                QrImageView(
-                  data: code!.rawData,
-                  //foregroundColor: Theme.of(context).colorScheme.onBackground,
-                  eyeStyle: QrEyeStyle(
-                    eyeShape: QrEyeShape.square,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                  version: QrVersions.auto,
-                  size: qrSize,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              QrImageView(
+                data: code?.rawData ?? '',
+                eyeStyle: QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
-                const SizedBox(
-                  height: 20,
+                dataModuleStyle: QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      l10n.account,
-                      style: enteTextTheme.largeMuted,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      code?.account ?? '',
-                      style: enteTextTheme.largeBold,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      l10n.codeIssuerHint,
-                      style: enteTextTheme.largeMuted,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      code?.issuer ?? '',
-                      style: enteTextTheme.largeBold,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 80,
-                ),
-                SizedBox(
-                  width: 400,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 4,
+                version: QrVersions.auto,
+                size: qrSize,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        l10n.account,
+                        style: enteTextTheme.largeMuted,
                       ),
-                      child: Text(l10n.back),
-                    ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        code?.account ?? '',
+                        style: enteTextTheme.largeBold,
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        l10n.codeIssuerHint,
+                        style: enteTextTheme.largeMuted,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        code?.issuer ?? '',
+                        style: enteTextTheme.largeBold,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

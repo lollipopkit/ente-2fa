@@ -4,8 +4,6 @@ import 'package:confetti/confetti.dart';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/typedefs.dart';
 import 'package:ente_auth/theme/colors.dart';
-import 'package:ente_auth/ui/common/loading_widget.dart';
-import 'package:ente_auth/ui/common/progress_dialog.dart';
 import 'package:ente_auth/ui/components/buttons/button_widget.dart';
 import 'package:ente_auth/ui/components/components_constants.dart';
 import 'package:ente_auth/ui/components/dialog_widget.dart';
@@ -134,29 +132,6 @@ Future<ButtonResult?> showChoiceDialog(
     icon: icon,
     isDismissible: isDismissible,
   );
-}
-
-ProgressDialog createProgressDialog(
-  BuildContext context,
-  String message, {
-  isDismissible = false,
-}) {
-  final dialog = ProgressDialog(
-    context,
-    type: ProgressDialogType.normal,
-    isDismissible: isDismissible,
-    barrierColor: Colors.black12,
-  );
-  dialog.style(
-    message: message,
-    messageTextStyle: Theme.of(context).textTheme.labelMedium,
-    backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-    progressWidget: const EnteLoadingWidget(),
-    borderRadius: 10,
-    elevation: 10.0,
-    insetAnimCurve: Curves.easeInOut,
-  );
-  return dialog;
 }
 
 Future<ButtonResult?> showConfettiDialog<T>({

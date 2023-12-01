@@ -95,13 +95,10 @@ Future<void> showImportInstructionDialog(BuildContext context) async {
 
 
 Future<void> _pickImportFile(BuildContext context) async {
-  final l10n = context.l10n;
   FilePickerResult? result = await FilePicker.platform.pickFiles();
   if (result == null) {
     return;
   }
-  final progressDialog = createProgressDialog(context, l10n.pleaseWait);
-  await progressDialog.show();
   try {
     File file = File(result.files.single.path!);
     final codes = await file.readAsString();
@@ -120,10 +117,8 @@ Future<void> _pickImportFile(BuildContext context) async {
     for (final code in parsedCodes) {
       await CodeStore.instance.addCode(code, shouldSync: false);
     }
-    await progressDialog.hide();
     await importSuccessDialog(context, parsedCodes.length);
   } catch (e) {
-    await progressDialog.hide();
     await showErrorDialog(
       context,
       context.l10n.sorry,

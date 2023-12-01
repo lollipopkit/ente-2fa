@@ -1,5 +1,6 @@
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
+import 'package:ente_auth/ui/components/scanner_overlay.dart';
 import 'package:ente_auth/ui/settings/data/import/google_auth_import.dart';
 import 'package:ente_auth/utils/toast_util.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,13 @@ class ScannerGoogleAuthPage extends StatefulWidget {
 
 class ScannerGoogleAuthPageState extends State<ScannerGoogleAuthPage> {
   String? totp;
+  late Size size;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    size = MediaQuery.of(context).size;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +53,15 @@ class ScannerGoogleAuthPageState extends State<ScannerGoogleAuthPage> {
                   showToast(context, "Invalid QR code");
                 }
               },
+              overlay: CustomPaint(
+                painter: ScannerOverlay(
+                  Rect.fromCenter(
+                    center: Offset.zero,
+                    width: size.width * 0.77,
+                    height: size.width * 0.77,
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(

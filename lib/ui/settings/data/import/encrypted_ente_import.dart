@@ -75,9 +75,7 @@ Future<void> _decryptExportData(
         return;
       }
       if (password.isNotEmpty) {
-        final progressDialog = createProgressDialog(context, l10n.pleaseWait);
         try {
-          await progressDialog.show();
           final derivedKey = await CryptoUtil.deriveKey(
             utf8.encode(password),
             Sodium.base642bin(enteAuthExport.kdfParams.salt),
@@ -98,8 +96,6 @@ Future<void> _decryptExportData(
             isPasswordIncorrect = true;
           }
           if (isPasswordIncorrect) {
-            await progressDialog.hide();
-
             Future.delayed(const Duration(seconds: 0), () {
               _decryptExportData(context, enteAuthExport, password: password);
             });
@@ -119,9 +115,7 @@ Future<void> _decryptExportData(
             await CodeStore.instance.addCode(code, shouldSync: false);
           }
           importedCodeCount = parsedCodes.length;
-          await progressDialog.hide();
         } catch (e, s) {
-          await progressDialog.hide();
           Logger("ExportWidget").severe(e, s);
           showToast(context, "Error while exporting codes.");
         }

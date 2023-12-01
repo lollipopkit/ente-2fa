@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:ente_auth/l10n/l10n.dart';
 import 'package:ente_auth/models/code.dart';
 import 'package:ente_auth/store/code_store.dart';
-import 'package:ente_auth/ui/common/progress_dialog.dart';
 import 'package:ente_auth/ui/components/buttons/button_widget.dart';
 import 'package:ente_auth/ui/components/dialog_widget.dart';
 import 'package:ente_auth/ui/components/models/button_type.dart';
@@ -57,19 +56,14 @@ Future<void> _pick2FasFile(BuildContext context) async {
   if (result == null) {
     return;
   }
-  final ProgressDialog progressDialog =
-      createProgressDialog(context, l10n.pleaseWait);
-  await progressDialog.show();
   try {
     String path = result.files.single.path!;
-    int? count = await _process2FasExportFile(context, path, progressDialog);
-    await progressDialog.hide();
+    int? count = await _process2FasExportFile(context, path);
     if (count != null) {
       await importSuccessDialog(context, count);
     }
   } catch (e, s) {
     Logger('2FASImport').severe('exception while processing import', e, s);
-    await progressDialog.hide();
     await showErrorDialog(
       context,
       context.l10n.sorry,
@@ -81,7 +75,6 @@ Future<void> _pick2FasFile(BuildContext context) async {
 Future<int?> _process2FasExportFile(
   BuildContext context,
   String path,
-  final ProgressDialog dialog,
 ) async {
   File file = File(path);
 
@@ -89,7 +82,6 @@ Future<int?> _process2FasExportFile(
   final decodedJson = await compute(jsonDecode, jsonString);
   int version = (decodedJson['schemaVersion'] ?? 0) as int;
   if (version != 3 && version != 4) {
-    await dialog.hide();
     // todo: extract strings for l10n. Use same naming format as in aegis
     // to avoid duplicate translation efforts.
     await showErrorDialog(
@@ -118,7 +110,6 @@ Future<int?> _process2FasExportFile(
         },
       );
       if (password == null) {
-        await dialog.hide();
         return null;
       }
       final content = await compute(
@@ -128,7 +119,6 @@ Future<int?> _process2FasExportFile(
       decodedServices = await compute(jsonDecode, content);
     } catch (e, s) {
       Logger("2FASImport").warning("exception while decrypting backup", e, s);
-      await dialog.hide();
       if (password != null) {
         await showErrorDialog(
           context,
