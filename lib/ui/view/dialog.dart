@@ -80,7 +80,7 @@ class DialogWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ContentContainer(
+              _ContentContainer(
                 title: title,
                 body: body,
                 icon: icon,
@@ -95,15 +95,14 @@ class DialogWidget extends StatelessWidget {
   }
 }
 
-class ContentContainer extends StatelessWidget {
+class _ContentContainer extends StatelessWidget {
   final String title;
   final String? body;
   final IconData? icon;
-  const ContentContainer({
+  const _ContentContainer({
     required this.title,
     this.body,
     this.icon,
-    super.key,
   });
 
   @override
@@ -209,7 +208,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ContentContainer(
+            _ContentContainer(
               title: widget.title,
               body: widget.body,
               icon: widget.icon,
