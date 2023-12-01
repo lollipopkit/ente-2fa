@@ -11,7 +11,7 @@ import 'package:ente_auth/utils/navigation_util.dart';
 import 'package:flutter/material.dart';
 
 class DataSectionWidget extends StatelessWidget {
-  const DataSectionWidget({Key? key}) : super(key: key);
+  const DataSectionWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class DataSectionWidget extends StatelessWidget {
         trailingIcon: Icons.chevron_right_outlined,
         trailingIconIsMuted: true,
         onTap: () async {
-          routeToPage(context, ImportCodePage());
+          routeToPage(context, const ImportCodePage());
         },
       ),
       sectionOptionSpacing,

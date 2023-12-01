@@ -29,7 +29,7 @@ class ImportCodePage extends StatelessWidget {
     ImportType.ravio,
   ];
 
-  ImportCodePage({super.key});
+  const ImportCodePage({super.key});
 
   String getTitle(BuildContext context, ImportType type) {
     switch (type) {

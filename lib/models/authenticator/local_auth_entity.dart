@@ -21,7 +21,7 @@ class LocalAuthEntity {
   // app should try to sync it to the server during next sync
   final bool shouldSync;
 
-  LocalAuthEntity(
+  const LocalAuthEntity(
     this.generatedID,
     this.id,
     this.encryptedData,

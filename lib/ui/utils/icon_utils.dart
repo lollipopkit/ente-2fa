@@ -70,7 +70,7 @@ class IconUtils {
       semanticsLabel: title,
       colorFilter: color != null
           ? ColorFilter.mode(
-              Color(int.parse("0xFF" + color)),
+              Color(int.parse("0xFF$color")),
               BlendMode.srcIn,
             )
           : null,

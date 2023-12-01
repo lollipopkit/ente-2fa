@@ -6,7 +6,7 @@ import 'package:ente_auth/ui/settings/general_section_widget.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
-  SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SettingsPage extends StatelessWidget {
     const sectionSpacing = SizedBox(height: 8);
     final List<Widget> contents = [
       sectionSpacing,
-      Image.asset('assets/app_icon.png', width: 77, height: 77),
+      Image.asset('assets/app_icon.png', width: 37, height: 37),
       sectionSpacing,
       const Text('v1.0.0'),
       const SizedBox(height: 37),

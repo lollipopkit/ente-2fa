@@ -25,14 +25,14 @@ import 'package:move_to_background/move_to_background.dart';
 import 'package:uni_links/uni_links.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  static final _settingsPage = SettingsPage();
+  static const _settingsPage = SettingsPage();
   bool _hasLoaded = false;
   bool _isSettingsOpen = false;
   final Logger _logger = Logger("HomePage");
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
       final Code? code = await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return SetupEnterSecretKeyPage();
+            return const SetupEnterSecretKeyPage();
           },
         ),
       );
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
         drawerEnableOpenDragGesture: true,
         drawer: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 328),
-          child: Drawer(
+          child: const Drawer(
             width: double.infinity,
             child: _settingsPage,
           ),

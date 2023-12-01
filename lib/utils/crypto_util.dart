@@ -95,7 +95,7 @@ Future<EncryptionResult> chachaEncryptFile(Map<String, dynamic> args) async {
   final sourceFile = io.File(args["sourceFilePath"]);
   final destinationFile = io.File(args["destinationFilePath"]);
   final sourceFileLength = await sourceFile.length();
-  logger.info("Encrypting file of size " + sourceFileLength.toString());
+  logger.info("Encrypting file of size $sourceFileLength");
 
   final inputFile = sourceFile.openSync(mode: io.FileMode.read);
   final key = args["key"] ?? Sodium.cryptoSecretstreamXchacha20poly1305Keygen();
@@ -122,9 +122,7 @@ Future<EncryptionResult> chachaEncryptFile(Map<String, dynamic> args) async {
   await inputFile.close();
 
   logger.info(
-    "Encryption time: " +
-        (DateTime.now().millisecondsSinceEpoch - encryptionStartTime)
-            .toString(),
+    "Encryption time: ${DateTime.now().millisecondsSinceEpoch - encryptionStartTime}",
   );
 
   return EncryptionResult(key: key, header: initPushResult.header);
@@ -136,7 +134,7 @@ Future<void> chachaDecryptFile(Map<String, dynamic> args) async {
   final sourceFile = io.File(args["sourceFilePath"]);
   final destinationFile = io.File(args["destinationFilePath"]);
   final sourceFileLength = await sourceFile.length();
-  logger.info("Decrypting file of size " + sourceFileLength.toString());
+  logger.info("Decrypting file of size $sourceFileLength");
 
   final inputFile = sourceFile.openSync(mode: io.FileMode.read);
   final pullState = Sodium.cryptoSecretstreamXchacha20poly1305InitPull(
@@ -161,9 +159,7 @@ Future<void> chachaDecryptFile(Map<String, dynamic> args) async {
   inputFile.closeSync();
 
   logger.info(
-    "ChaCha20 Decryption time: " +
-        (DateTime.now().millisecondsSinceEpoch - decryptionStartTime)
-            .toString(),
+    "ChaCha20 Decryption time: ${DateTime.now().millisecondsSinceEpoch - decryptionStartTime}",
   );
 }
 

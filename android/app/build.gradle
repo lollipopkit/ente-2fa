@@ -62,28 +62,12 @@ android {
            storePassword keystoreProperties['storePassword'] ? keystoreProperties['storePassword'] : System.getenv("SIGNING_STORE_PASSWORD")
        }
     }
-    
-    flavorDimensions "default"
-    productFlavors {
-        independent {
-            dimension "default"
-            applicationIdSuffix ".independent"
-        }
-        playstore {
-            dimension "default"
-        }
-        fdroid {
-            dimension "default"
-        }
-    }
 
     buildTypes {
         release {
             signingConfig signingConfigs.release
         }
         debug {
-          applicationIdSuffix '.debug'
-          versionNameSuffix "-debug"
           externalNativeBuild {
             cmake {
               arguments "-DANDROID_PACKAGE_NAME=${android.defaultConfig.applicationId}${applicationIdSuffix}"
@@ -108,7 +92,6 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'

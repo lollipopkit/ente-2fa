@@ -29,24 +29,6 @@ linter:
     - always_use_package_imports
 
 analyzer:
-  errors:
-    avoid_empty_else: error
-    exhaustive_cases: error
-    curly_braces_in_flow_control_structures: error
-    directives_ordering: error
-    always_use_package_imports: error
-    prefer_final_fields: error
-    unused_import: error
-    prefer_is_empty: warning
-    use_rethrow_when_possible: info
-    require_trailing_commas: error
-
-    prefer_const_constructors: error # too many warnings
-    prefer_const_declarations: error # too many warnings
-    prefer_const_constructors_in_immutables: ignore # too many warnings
-
-    avoid_renaming_method_parameters: ignore # incorrect warnings for `equals` overrides
-
   exclude:
     - thirdparty/**
     - flutter/**

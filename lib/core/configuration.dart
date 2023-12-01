@@ -43,7 +43,7 @@ class Configuration {
     _preferences = await SharedPreferences.getInstance();
     _secureStorage = const FlutterSecureStorage();
     _documentsDirectory = (await getApplicationDocumentsDirectory()).path;
-    _tempDirectory = _documentsDirectory + "/temp/";
+    _tempDirectory = "$_documentsDirectory/temp/";
     final tempDirectory = io.Directory(_tempDirectory);
     try {
       final currentTime = DateTime.now().microsecondsSinceEpoch;

@@ -15,8 +15,8 @@ class ExpandableMenuItemWidget extends StatefulWidget {
     required this.selectionOptionsWidget,
     required this.leadingIcon,
     this.initialExpand = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ExpandableMenuItemWidget> createState() =>

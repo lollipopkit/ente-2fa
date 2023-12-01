@@ -5,13 +5,13 @@ import 'package:flutter/scheduler.dart';
 class CodeTimerProgress extends StatefulWidget {
   final int period;
 
-  CodeTimerProgress({
-    Key? key,
+  const CodeTimerProgress({
+    super.key,
     required this.period,
-  }) : super(key: key);
+  });
 
   @override
-  _CodeTimerProgressState createState() => _CodeTimerProgressState();
+  State<CodeTimerProgress> createState() => _CodeTimerProgressState();
 }
 
 class _CodeTimerProgressState extends State<CodeTimerProgress>

@@ -12,7 +12,7 @@ class AuthEntity {
   final int createdAt;
   final int updatedAt;
 
-  AuthEntity(
+  const AuthEntity(
     this.id,
     this.encryptedData,
     this.header,

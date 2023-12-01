@@ -8,20 +8,12 @@
             "name": "ente-2fa",
             "request": "launch",
             "type": "dart",
-            "args": [
-                "--flavor",
-                "independent",
-            ]
         },
         {
             "name": "ente-2fa (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
-            "args": [
-                "--flavor",
-                "independent",
-            ]
         }
     ]
 }
