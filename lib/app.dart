@@ -59,7 +59,7 @@ class _AppState extends State<App> {
             GlobalCupertinoLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          routes: _getRoutes,
+          home: const HomePage(),
         ),
       );
     } else {
@@ -78,14 +78,8 @@ class _AppState extends State<App> {
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        routes: _getRoutes,
+        home: const HomePage(),
       );
     }
-  }
-
-  Map<String, WidgetBuilder> get _getRoutes {
-    return {
-      "/": (context) => const HomePage(),
-    };
   }
 }

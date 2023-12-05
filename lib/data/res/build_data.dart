@@ -2,8 +2,8 @@
 
 class BuildData {
   static const String name = "2fa";
-  static const int build = 1;
+  static const int build = 2;
   static const String engine = "3.16.2";
-  static const String buildAt = "2023-12-01 17:09:22";
-  static const int modifications = 2;
+  static const String buildAt = "2023-12-01 17:18:53";
+  static const int modifications = 3;
 }

@@ -103,9 +103,10 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _redirectToScannerPage() async {
     unawaited(() async {
-      final Code? code = await Navigator.of(context).push(
+      final code = await Navigator.push(
+        context,
         MaterialPageRoute(
-          builder: (BuildContext context) {
+          builder: (context) {
             return const ScannerPage();
           },
         ),
@@ -113,7 +114,7 @@ class _HomePageState extends State<HomePage> {
       if (code != null) {
         CodeStore.instance.addCode(code);
         // Focus the new code by searching
-        if (_codes.length > 2) {
+        if (_codes.length > 6) {
           _focusNewCode(code);
         }
       }
@@ -122,7 +123,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _redirectToManualEntryPage() async {
     unawaited(() async {
-      final Code? code = await Navigator.of(context).push(
+      final code = await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
             return const SecretKeyPage();
@@ -131,6 +132,10 @@ class _HomePageState extends State<HomePage> {
       );
       if (code != null) {
         CodeStore.instance.addCode(code);
+        // Focus the new code by searching
+        if (_codes.length > 6) {
+          _focusNewCode(code);
+        }
       }
     }());
   }
@@ -309,10 +314,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _focusNewCode(Code newCode) {
-    _showSearchBox = true;
-    _textController.text = newCode.account;
-    _searchText = newCode.account;
-    _applyFilteringAndRefresh();
+    // _showSearchBox = true;
+    // _textController.text = newCode.account;
+    // _searchText = newCode.account;
+    // _applyFilteringAndRefresh();
   }
 
   Widget _getFab() {
@@ -322,8 +327,8 @@ class _HomePageState extends State<HomePage> {
       foregroundColor: Theme.of(context).colorScheme.fabForegroundColor,
       backgroundColor: Theme.of(context).colorScheme.fabBackgroundColor,
       elevation: 8.0,
-      onPressed: () {
-        showChoiceDialog(
+      onPressed: () async {
+        await showChoiceDialog(
           context,
           title: 'Choose',
           firstButtonLabel: 'Scan',

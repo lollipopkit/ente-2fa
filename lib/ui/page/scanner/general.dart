@@ -14,6 +14,7 @@ class ScannerPageState extends State<ScannerPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   String? totp;
   late Size size;
+  var scanned = false;
 
   @override
   void didChangeDependencies() {
@@ -38,6 +39,8 @@ class ScannerPageState extends State<ScannerPage> {
                 .toList()
                 .first,
           );
+          if (!mounted || scanned) return;
+          scanned = true;
           Navigator.of(context).pop(code);
         },
         fit: BoxFit.cover,
